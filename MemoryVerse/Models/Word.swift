@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Word: Identifiable {
+struct Word: Identifiable, Equatable {
     var id: String = UUID().uuidString
     var text: String
     var hidden: Bool = false

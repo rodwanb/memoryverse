@@ -25,22 +25,34 @@ struct FlashCard: View {
     
     private func stepBackward() {
         progress = max(0.0, progress - 0.1)
+        prepareWordsFOrReview()
     }
     
     private func stepForward() {
         progress = min(1.0, progress + 0.1)
+        prepareWordsFOrReview()
     }
     
     private func restart() {
         progress = 0.0
+        prepareWordsFOrReview()
+    }
+    
+    private func prepareWordsFOrReview() {
+        let numberOfWordsToRandomize = Int(Float(words.count) * progress)
+        let wordsToReview = words.shuffled().prefix(numberOfWordsToRandomize)
+        for index in words.indices {
+            words[index].review = wordsToReview.contains(where: { $0 == words[index] })
+            words[index].hidden = true
+        }
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            
+                        
             HStack {
                 ProgressBar(value: $progress)
-                    .frame(width: 200, height: 40)
+                    .frame(height: 40)
                 
                 Button(action: stepBackward) {
                     Image(systemName: "arrow.backward.circle")
@@ -60,12 +72,25 @@ struct FlashCard: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top)
             
-            FlowLayout {
-                ForEach(words) { word in
-                    Text(word.text)
-                        .padding(.trailing)
+            VStack(alignment: .leading, spacing: 10) {
+                Text(reference)
+                    .font(.title2)
+                
+                FlowLayout {
+                    ForEach($words) { $word in
+                        if word.review {
+                            Text(word.text)
+                                .padding(.trailing)
+                                .opacity(word.hidden ? 0 : 1)
+                                .onTapGesture {
+                                    word.hidden.toggle()
+                                }
+                        } else {
+                            Text(word.text)
+                                .padding(.trailing)
+                        }
+                    }
                 }
             }
             .padding()
