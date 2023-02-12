@@ -17,6 +17,7 @@
 		8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0834392999727800C684A9 /* FlowLayout.swift */; };
 		8F08343D299979A000C684A9 /* FlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343C299979A000C684A9 /* FlashCard.swift */; };
 		8F08344029997EF700C684A9 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343F29997EF700C684A9 /* Word.swift */; };
+		8F083442299980F600C684A9 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F083441299980F600C684A9 /* ProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		8F0834392999727800C684A9 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		8F08343C299979A000C684A9 /* FlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashCard.swift; sourceTree = "<group>"; };
 		8F08343F29997EF700C684A9 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		8F083441299980F600C684A9 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				8F08343C299979A000C684A9 /* FlashCard.swift */,
+				8F083441299980F600C684A9 /* ProgressBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */,
 				8F08344029997EF700C684A9 /* Word.swift in Sources */,
 				8F08343D299979A000C684A9 /* FlashCard.swift in Sources */,
+				8F083442299980F600C684A9 /* ProgressBar.swift in Sources */,
 				8F0834102999694C00C684A9 /* MemoryVerseApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
