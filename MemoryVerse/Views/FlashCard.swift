@@ -48,39 +48,17 @@ struct FlashCard: View {
         }
     }
     
+    private func edit() {
+        
+    }
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                HStack {
-                    ProgressBar(value: $progress)
-                        .frame(height: 40)
-                    
-                    Button(action: stepBackward) {
-                        Image(systemName: "arrow.backward.circle")
-                            .font(.title)
-                            .tint(.black)
-                    }
-                    .disabled(progress == 0.0)
-                    
-                    Button(action: stepForward) {
-                        Image(systemName: "arrow.forward.circle")
-                            .font(.title)
-                            .tint(.black)
-                    }
-                    .disabled(progress == 1.0)
-                    
-                    Button(action: restart) {
-                        Image(systemName: "arrow.counterclockwise.circle")
-                            .font(.title)
-                            .tint(.black)
-                    }
-                }
-                .padding(.bottom)
-                
-                
-                Text(verse.reference ?? "")
-                    .font(.title3)
-                    .bold()
+                                
+                ProgressBar(value: $progress)
+                    .frame(height: 8)
+                    .padding(.bottom, 8)
                 
                 FlowLayout {
                     ForEach($words) { word in
@@ -89,16 +67,42 @@ struct FlashCard: View {
                 }
                 .padding(.bottom, 40)
                 
+                HStack {
+
+                    Spacer()
+                    
+                    Button(action: restart) {
+                        Image(systemName: "arrow.counterclockwise.circle")
+                            .font(.largeTitle)
+                            .tint(.primary)
+                    }
+                    .padding(.horizontal)
+                    
+                    Button(action: stepBackward) {
+                        Image(systemName: "arrow.backward.circle")
+                            .font(.largeTitle)
+                            .tint(.primary)
+                    }
+                    .disabled(progress == 0.0)
+                    
+                    Button(action: stepForward) {
+                        Image(systemName: "arrow.forward.circle")
+                            .font(.largeTitle)
+                            .tint(.primary)
+                    }
+                    .disabled(progress == 1.0)
+                    
+                }
+                .padding(.bottom)
+                
                 Spacer()
             }
             .padding()
         }
-        .navigationTitle("Flash card")
+        .navigationTitle(verse.reference ?? "")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit") {
-                    
-                }
+                Button("Edit", action: edit)
             }
         }
     }
@@ -111,14 +115,15 @@ struct WordCell: View {
     var body: some View {
         Group {
             let text = Text(word.text)
+                .font(.title3)
             
             if word.review {
                 text
-                    .foregroundColor(word.hidden ? .clear : .black)
+                    .foregroundColor(word.hidden ? .clear : .primary)
                     .padding(.horizontal, 6)
                     .overlay(
                         Capsule(style: .continuous)
-                            .stroke(.black, lineWidth: 2)
+                            .stroke(.secondary, lineWidth: 2)
                     )
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.25)) {
@@ -155,7 +160,7 @@ struct ProgressBar: View {
                         width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
                         height: geometry.size.height
                     )
-                    .foregroundColor(Color(UIColor.systemGray2))
+                    .foregroundColor(Color.secondary)
             }
             .cornerRadius(5.0)
         }
@@ -164,9 +169,20 @@ struct ProgressBar: View {
 
 
 struct FlashCard_Previews: PreviewProvider {
+    
+    static var verse: Verse = {
+        let context = CoreDataModel.shared.viewContext
+        let verse = Verse(context: context)
+        verse.reference = "Proverbs 22:7"
+        verse.text = "The rich rule over the poor, and the borrower is slave to the lender."
+        return verse
+    }()
+    
     static var previews: some View {
         NavigationStack {
-            FlashCard(verse: Verse.all[0])
+            FlashCard(verse: verse)
         }
+        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+
     }
 }

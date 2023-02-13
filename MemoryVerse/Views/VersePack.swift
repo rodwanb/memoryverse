@@ -23,6 +23,10 @@ struct VersePack: View {
         }
     }
     
+    private func add() {
+        isAddVersePresented = true
+    }
+    
     var body: some View {
         NavigationStack {
             List {
@@ -50,8 +54,8 @@ struct VersePack: View {
             })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add Verse") {
-                        isAddVersePresented = true
+                    Button(action: add) {
+                        Image(systemName: "plus")
                     }
                 }
             }

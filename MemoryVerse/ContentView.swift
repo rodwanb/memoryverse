@@ -12,25 +12,25 @@ struct ContentView: View {
         TabView {
             VersePack()
                 .tabItem {
-                    Image(systemName: "list.bullet.circle.fill")
-                    Text("Verse Pack")
+                    Image(systemName: "goforward.plus")
+                    Text("Memorize")
                 }
             
-            Text("Bible")
+            Text("Review")
                 .tabItem {
-                    Image(systemName: "book.circle.fill")
-                    Text("Bible")
+                    Image(systemName: "note.text")
+                    Text("Review")
                 }
             
-            Text("History")
+            Text("Schedules")
                 .tabItem {
-                    Image(systemName: "clock.fill")
-                    Text("History")
+                    Image(systemName: "calendar.badge.clock")
+                    Text("Schedules")
                 }
             
             Text("Settings")
                 .tabItem {
-                    Image(systemName: "gearshape.circle.fill")
+                    Image(systemName: "gearshape")
                     Text("Settings")
                 }
         }
@@ -40,5 +40,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
     }
 }
