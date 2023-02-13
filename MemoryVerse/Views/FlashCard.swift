@@ -49,49 +49,50 @@ struct FlashCard: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            
-            HStack {
-                ProgressBar(value: $progress)
-                    .frame(height: 40)
-                
-                Button(action: stepBackward) {
-                    Image(systemName: "arrow.backward.circle")
-                        .font(.title)
-                        .tint(.black)
+        ScrollView {
+            VStack(alignment: .leading) {
+                HStack {
+                    ProgressBar(value: $progress)
+                        .frame(height: 40)
+                    
+                    Button(action: stepBackward) {
+                        Image(systemName: "arrow.backward.circle")
+                            .font(.title)
+                            .tint(.black)
+                    }
+                    .disabled(progress == 0.0)
+                    
+                    Button(action: stepForward) {
+                        Image(systemName: "arrow.forward.circle")
+                            .font(.title)
+                            .tint(.black)
+                    }
+                    .disabled(progress == 1.0)
+                    
+                    Button(action: restart) {
+                        Image(systemName: "arrow.counterclockwise.circle")
+                            .font(.title)
+                            .tint(.black)
+                    }
                 }
-                .disabled(progress == 0.0)
+                .padding(.bottom)
                 
-                Button(action: stepForward) {
-                    Image(systemName: "arrow.forward.circle")
-                        .font(.title)
-                        .tint(.black)
-                }
-                .disabled(progress == 1.0)
                 
-                Button(action: restart) {
-                    Image(systemName: "arrow.counterclockwise.circle")
-                        .font(.title)
-                        .tint(.black)
+                Text(verse.reference)
+                    .font(.title3)
+                    .bold()
+                
+                FlowLayout {
+                    ForEach($words) { word in
+                        WordCell(word: word)
+                    }
                 }
+                .padding(.bottom, 40)
+                
+                Spacer()
             }
-            .padding(.bottom)
-            
-            Text(verse.reference)
-                .font(.title3)
-                .bold()
-            
-            FlowLayout {
-                ForEach($words) { word in
-                    WordCell(word: word)
-                }
-            }
-            .padding(.bottom, 40)
-            
-            Spacer()
+            .padding()
         }
-        .padding()
-        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Flash card")
     }
 }
@@ -106,7 +107,7 @@ struct WordCell: View {
             
             if word.review {
                 text
-                    .foregroundColor(word.hidden ? .white : .black)
+                    .foregroundColor(word.hidden ? .clear : .black)
                     .padding(.horizontal, 6)
                     .overlay(
                         Capsule(style: .continuous)
@@ -157,6 +158,8 @@ struct ProgressBar: View {
 
 struct FlashCard_Previews: PreviewProvider {
     static var previews: some View {
-        FlashCard(verse: Verse.all[0])
+        NavigationStack {
+            FlashCard(verse: Verse.all[0])
+        }
     }
 }

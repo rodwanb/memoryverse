@@ -7,33 +7,69 @@
 
 import SwiftUI
 
+struct AddVerseErrors {
+    var reference: String = ""
+    var verse: String = ""
+    
+    var isValid: Bool {
+        return !reference.isEmpty && !verse.isEmpty
+    }
+}
+
 struct AddVerse: View {
     
     @State private var reference: String = ""
     @State private var verse: String = ""
+    @State private var errors: AddVerseErrors = AddVerseErrors()
     
+    @Environment(\.dismiss) private var dismiss
+    
+    var isFormValid: Bool {
+        errors = AddVerseErrors()
+        
+        if reference.isEmpty {
+            errors.reference = "Reference is required"
+        }
+        
+        if verse.isEmpty {
+            errors.verse = "Verse is required"
+        }
+        
+        return errors.isValid
+    }
+    
+    private func save() {
+        // TODO:
+        dismiss()
+    }
+        
     var body: some View {
         NavigationStack {
             Form {
                 TextField("Reference", text: $reference)
                     .padding(.leading, 3)
-                TextArea("Verse", text: $verse)
-            }
-            .navigationTitle("Add Verse")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        // TODO:
-                    }
+                if !errors.reference.isEmpty {
+                    Text(errors.reference)
+                        .font(.caption)
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        // TODO:
+                TextArea("Verse", text: $verse)
+                if !errors.verse.isEmpty {
+                    Text(errors.verse)
+                        .font(.caption)
+                }
+                
+                HStack {
+                    Spacer()
+                    Button("Add Verse") {
+                        if isFormValid {
+                            save()
+                        }
                     }
+                    Spacer()
                 }
             }
+            .navigationTitle("Memory Verse")
         }
     }
 }
