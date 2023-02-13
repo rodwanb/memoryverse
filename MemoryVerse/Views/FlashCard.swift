@@ -17,9 +17,9 @@ struct FlashCard: View {
     init(verse: Verse) {
         self.verse = verse
         
-        let verseWords = verse.text
+        let verseWords: [Word] = verse.text?
             .components(separatedBy: " ")
-            .map { Word(text: $0) }
+            .map { Word(text: $0) } ?? []
         
         self._words = State(initialValue: verseWords)
     }
@@ -78,7 +78,7 @@ struct FlashCard: View {
                 .padding(.bottom)
                 
                 
-                Text(verse.reference)
+                Text(verse.reference ?? "")
                     .font(.title3)
                     .bold()
                 
@@ -94,6 +94,13 @@ struct FlashCard: View {
             .padding()
         }
         .navigationTitle("Flash card")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Edit") {
+                    
+                }
+            }
+        }
     }
 }
 

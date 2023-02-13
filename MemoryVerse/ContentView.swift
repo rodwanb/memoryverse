@@ -9,8 +9,30 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
+        TabView {
             VersePack()
+                .tabItem {
+                    Image(systemName: "list.bullet.circle.fill")
+                    Text("Verse Pack")
+                }
+            
+            Text("Bible")
+                .tabItem {
+                    Image(systemName: "book.circle.fill")
+                    Text("Bible")
+                }
+            
+            Text("History")
+                .tabItem {
+                    Image(systemName: "clock.fill")
+                    Text("History")
+                }
+            
+            Text("Settings")
+                .tabItem {
+                    Image(systemName: "gearshape.circle.fill")
+                    Text("Settings")
+                }
         }
     }
 }

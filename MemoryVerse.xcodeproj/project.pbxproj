@@ -18,8 +18,10 @@
 		8F08343D299979A000C684A9 /* FlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343C299979A000C684A9 /* FlashCard.swift */; };
 		8F08344029997EF700C684A9 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343F29997EF700C684A9 /* Word.swift */; };
 		8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DA299A231C00955197 /* VersePack.swift */; };
-		8FE3B0DD299A233700955197 /* Verse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DC299A233700955197 /* Verse.swift */; };
+		8FE3B0DD299A233700955197 /* Verse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */; };
 		8FE3B0DF299A2C5D00955197 /* AddVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DE299A2C5D00955197 /* AddVerse.swift */; };
+		8FE3B0E2299A3E8700955197 /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0E1299A3E8700955197 /* CoreDataModel.swift */; };
+		8FE3B0E5299A401700955197 /* MemoryVerseModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0E3299A401700955197 /* MemoryVerseModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +56,10 @@
 		8F08343C299979A000C684A9 /* FlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashCard.swift; sourceTree = "<group>"; };
 		8F08343F29997EF700C684A9 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		8FE3B0DA299A231C00955197 /* VersePack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersePack.swift; sourceTree = "<group>"; };
-		8FE3B0DC299A233700955197 /* Verse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verse.swift; sourceTree = "<group>"; };
+		8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Verse+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8FE3B0DE299A2C5D00955197 /* AddVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerse.swift; sourceTree = "<group>"; };
+		8FE3B0E1299A3E8700955197 /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
+		8FE3B0E4299A401700955197 /* MemoryVerseModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MemoryVerseModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 				8F0834112999694C00C684A9 /* ContentView.swift */,
 				8F0834132999694E00C684A9 /* Assets.xcassets */,
 				8F0834152999694E00C684A9 /* Preview Content */,
+				8FE3B0E3299A401700955197 /* MemoryVerseModel.xcdatamodeld */,
 			);
 			path = MemoryVerse;
 			sourceTree = "<group>";
@@ -156,7 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				8F08343F29997EF700C684A9 /* Word.swift */,
-				8FE3B0DC299A233700955197 /* Verse.swift */,
+				8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */,
+				8FE3B0E1299A3E8700955197 /* CoreDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -291,9 +297,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FE3B0DD299A233700955197 /* Verse.swift in Sources */,
+				8FE3B0E5299A401700955197 /* MemoryVerseModel.xcdatamodeld in Sources */,
+				8FE3B0DD299A233700955197 /* Verse+CoreDataClass.swift in Sources */,
 				8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */,
 				8F0834122999694C00C684A9 /* ContentView.swift in Sources */,
+				8FE3B0E2299A3E8700955197 /* CoreDataModel.swift in Sources */,
 				8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */,
 				8F08344029997EF700C684A9 /* Word.swift in Sources */,
 				8F08343D299979A000C684A9 /* FlashCard.swift in Sources */,
@@ -465,6 +473,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,6 +503,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -623,6 +633,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8FE3B0E3299A401700955197 /* MemoryVerseModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8FE3B0E4299A401700955197 /* MemoryVerseModel.xcdatamodel */,
+			);
+			currentVersion = 8FE3B0E4299A401700955197 /* MemoryVerseModel.xcdatamodel */;
+			path = MemoryVerseModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8F0834042999694C00C684A9 /* Project object */;
 }

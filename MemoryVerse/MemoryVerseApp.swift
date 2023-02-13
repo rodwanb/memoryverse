@@ -12,6 +12,7 @@ struct MemoryVerseApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
         }
     }
 }

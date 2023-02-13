@@ -12,18 +12,19 @@ struct AddVerseErrors {
     var verse: String = ""
     
     var isValid: Bool {
-        return !reference.isEmpty && !verse.isEmpty
+        return reference.isEmpty && verse.isEmpty
     }
 }
 
 struct AddVerse: View {
     
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var reference: String = ""
     @State private var verse: String = ""
     @State private var errors: AddVerseErrors = AddVerseErrors()
-    
-    @Environment(\.dismiss) private var dismiss
-    
+        
     var isFormValid: Bool {
         errors = AddVerseErrors()
         
@@ -39,8 +40,16 @@ struct AddVerse: View {
     }
     
     private func save() {
-        // TODO:
-        dismiss()
+        let verse = Verse(context: viewContext)
+        verse.reference = reference
+        verse.text = self.verse
+        
+        do {
+            try viewContext.save()
+            dismiss()
+        } catch {
+            print(error)
+        }
     }
         
     var body: some View {
