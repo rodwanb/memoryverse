@@ -49,7 +49,7 @@ struct FlashCard: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-                        
+            
             HStack {
                 ProgressBar(value: $progress)
                     .frame(height: 40)
@@ -57,57 +57,103 @@ struct FlashCard: View {
                 Button(action: stepBackward) {
                     Image(systemName: "arrow.backward.circle")
                         .font(.title)
+                        .tint(.black)
                 }
                 .disabled(progress == 0.0)
                 
                 Button(action: stepForward) {
                     Image(systemName: "arrow.forward.circle")
                         .font(.title)
+                        .tint(.black)
                 }
                 .disabled(progress == 1.0)
                 
                 Button(action: restart) {
                     Image(systemName: "arrow.counterclockwise.circle")
                         .font(.title)
+                        .tint(.black)
                 }
             }
-            .padding(.horizontal)
-            
-            VStack(alignment: .leading, spacing: 10) {
-                Text(reference)
-                    .font(.title2)
-                
-                FlowLayout {
-                    ForEach($words) { $word in
-                        if word.review {
-                            Text(word.text)
-                                .padding(.trailing)
-                                .opacity(word.hidden ? 0 : 1)
-                                .onTapGesture {
-                                    word.hidden.toggle()
-                                }
-                        } else {
-                            Text(word.text)
-                                .padding(.trailing)
-                        }
-                    }
-                }
-            }
-            .padding()
             .padding(.bottom)
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.blue, lineWidth: 2)
-            )
-            .padding()
+            
+            Text(reference)
+                .font(.title3)
+                .bold()
+            
+            FlowLayout {
+                ForEach($words) { word in
+                    WordCell(word: word)
+                }
+            }
+            .padding(.bottom, 40)
             
             Spacer()
+        }
+        .padding()
+    }
+}
+
+struct WordCell: View {
+    
+    @Binding var word: Word
+    
+    var body: some View {
+        Group {
+            let text = Text(word.text)
+            
+            if word.review {
+                text
+                    .foregroundColor(word.hidden ? .white : .black)
+                    .padding(.horizontal, 6)
+                    .overlay(
+                        Capsule(style: .continuous)
+                            .stroke(.black, lineWidth: 2)
+                    )
+                    .onTapGesture {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            word.hidden.toggle()
+                        }
+                    }
+            } else {
+                text
+            }
+        }
+        .font(.body)
+        .padding(.trailing, 4)
+        .padding(.vertical, 3)
+    }
+}
+
+struct ProgressBar: View {
+    
+    @Binding var value: Float
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .frame(
+                        width: geometry.size.width,
+                        height: geometry.size.height
+                    )
+                    .opacity(0.3)
+                    .foregroundColor(Color(UIColor.systemFill))
+                
+                Rectangle()
+                    .frame(
+                        width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
+                        height: geometry.size.height
+                    )
+                    .foregroundColor(Color(UIColor.systemGray2))
+            }
+            .cornerRadius(5.0)
         }
     }
 }
 
+
 struct FlashCard_Previews: PreviewProvider {
     static var previews: some View {
-        FlashCard(reference: "Mark 8: 36-37", verse: "36 For what will it profit a man if he gains the whole world, and loses his own soul? 37 Or what will a man give in exchange for his soul?")
+        FlashCard(reference: "Mark 8: 36-37", verse: "For what will it profit a man if he gains the whole world, and loses his own soul? Or what will a man give in exchange for his soul?")
     }
 }
