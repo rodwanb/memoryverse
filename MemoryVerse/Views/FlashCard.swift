@@ -9,18 +9,19 @@ import SwiftUI
 
 struct FlashCard: View {
     
-    var reference: String
-    var verse: String
+    let verse: Verse
     
     @State private var words: [Word]
     @State private var progress: Float = 0.0
     
-    init(reference: String, verse: String) {
-        self.reference = reference
+    init(verse: Verse) {
         self.verse = verse
-        words = verse
+        
+        let verseWords = verse.text
             .components(separatedBy: " ")
             .map { Word(text: $0) }
+        
+        self._words = State(initialValue: verseWords)
     }
     
     private func stepBackward() {
@@ -76,7 +77,7 @@ struct FlashCard: View {
             }
             .padding(.bottom)
             
-            Text(reference)
+            Text(verse.reference)
                 .font(.title3)
                 .bold()
             
@@ -90,6 +91,8 @@ struct FlashCard: View {
             Spacer()
         }
         .padding()
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Flash card")
     }
 }
 
@@ -154,6 +157,6 @@ struct ProgressBar: View {
 
 struct FlashCard_Previews: PreviewProvider {
     static var previews: some View {
-        FlashCard(reference: "Mark 8: 36-37", verse: "For what will it profit a man if he gains the whole world, and loses his own soul? Or what will a man give in exchange for his soul?")
+        FlashCard(verse: Verse.all[0])
     }
 }

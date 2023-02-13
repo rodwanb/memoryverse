@@ -17,6 +17,9 @@
 		8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0834392999727800C684A9 /* FlowLayout.swift */; };
 		8F08343D299979A000C684A9 /* FlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343C299979A000C684A9 /* FlashCard.swift */; };
 		8F08344029997EF700C684A9 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343F29997EF700C684A9 /* Word.swift */; };
+		8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DA299A231C00955197 /* VersePack.swift */; };
+		8FE3B0DD299A233700955197 /* Verse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DC299A233700955197 /* Verse.swift */; };
+		8FE3B0DF299A2C5D00955197 /* AddVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DE299A2C5D00955197 /* AddVerse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		8F0834392999727800C684A9 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		8F08343C299979A000C684A9 /* FlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashCard.swift; sourceTree = "<group>"; };
 		8F08343F29997EF700C684A9 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		8FE3B0DA299A231C00955197 /* VersePack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersePack.swift; sourceTree = "<group>"; };
+		8FE3B0DC299A233700955197 /* Verse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verse.swift; sourceTree = "<group>"; };
+		8FE3B0DE299A2C5D00955197 /* AddVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +146,8 @@
 			isa = PBXGroup;
 			children = (
 				8F08343C299979A000C684A9 /* FlashCard.swift */,
+				8FE3B0DA299A231C00955197 /* VersePack.swift */,
+				8FE3B0DE299A2C5D00955197 /* AddVerse.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -148,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				8F08343F29997EF700C684A9 /* Word.swift */,
+				8FE3B0DC299A233700955197 /* Verse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -282,11 +291,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FE3B0DD299A233700955197 /* Verse.swift in Sources */,
+				8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */,
 				8F0834122999694C00C684A9 /* ContentView.swift in Sources */,
 				8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */,
 				8F08344029997EF700C684A9 /* Word.swift in Sources */,
 				8F08343D299979A000C684A9 /* FlashCard.swift in Sources */,
 				8F0834102999694C00C684A9 /* MemoryVerseApp.swift in Sources */,
+				8FE3B0DF299A2C5D00955197 /* AddVerse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
