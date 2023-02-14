@@ -113,7 +113,7 @@ struct FlashCard: View {
         }
         .navigationTitle(verse.reference ?? "")
         .sheet(isPresented: $isEditVersePresented, content: {
-            AddEditVerse(verse: verse)
+            EditVerse(verse: verse)
         })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -144,7 +144,6 @@ struct WordCell: View {
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.25)) {
                             toggleHidden(word)
-//                            word.hidden.toggle()
                         }
                     }
             } else {

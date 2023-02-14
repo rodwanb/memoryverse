@@ -17,7 +17,7 @@ struct AddEditVerseErrors {
     }
 }
 
-struct AddEditVerse: View {
+struct AddVerse: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
@@ -25,9 +25,7 @@ struct AddEditVerse: View {
     @State private var reference: String = ""
     @State private var text: String = ""
     @State private var errors: AddEditVerseErrors = AddEditVerseErrors()
-    
-    @ObservedObject var verse: Verse
-        
+            
     var isFormValid: Bool {
         errors = AddEditVerseErrors()
         
@@ -43,6 +41,7 @@ struct AddEditVerse: View {
     }
     
     private func save() {
+        let verse = Verse(context: viewContext)
         verse.reference = reference
         verse.text = text
                 
@@ -81,10 +80,6 @@ struct AddEditVerse: View {
                     }
                     Spacer()
                 }
-            }
-            .onAppear {
-                reference = verse.reference ?? ""
-                text = verse.text ?? ""
             }
             .navigationTitle("Memory Verse")
         }

@@ -50,7 +50,7 @@ struct VersePack: View {
             }
             .navigationTitle("Verse Pack")
             .sheet(isPresented: $isAddVersePresented, content: {
-                AddEditVerse(verse: Verse(context: viewContext))
+                AddVerse()
             })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
