@@ -10,7 +10,7 @@ import SwiftUI
 struct VersePack: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: []) private var verses: FetchedResults<Verse>
+    @FetchRequest(fetchRequest: Verse.all) private var verses
     
     @State private var isAddVersePresented: Bool = false
 
@@ -26,7 +26,7 @@ struct VersePack: View {
     private func add() {
         isAddVersePresented = true
     }
-    
+        
     var body: some View {
         NavigationStack {
             List {
@@ -50,7 +50,7 @@ struct VersePack: View {
             }
             .navigationTitle("Verse Pack")
             .sheet(isPresented: $isAddVersePresented, content: {
-                AddVerse()
+                AddEditVerse(verse: Verse(context: viewContext))
             })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

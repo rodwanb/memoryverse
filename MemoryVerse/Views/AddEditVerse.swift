@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import CoreData
 
-struct AddVerseErrors {
+struct AddEditVerseErrors {
     var reference: String = ""
     var verse: String = ""
     
@@ -16,23 +17,25 @@ struct AddVerseErrors {
     }
 }
 
-struct AddVerse: View {
+struct AddEditVerse: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
     @State private var reference: String = ""
-    @State private var verse: String = ""
-    @State private var errors: AddVerseErrors = AddVerseErrors()
+    @State private var text: String = ""
+    @State private var errors: AddEditVerseErrors = AddEditVerseErrors()
+    
+    @ObservedObject var verse: Verse
         
     var isFormValid: Bool {
-        errors = AddVerseErrors()
+        errors = AddEditVerseErrors()
         
         if reference.isEmpty {
             errors.reference = "Reference is required"
         }
         
-        if verse.isEmpty {
+        if text.isEmpty {
             errors.verse = "Verse is required"
         }
         
@@ -40,15 +43,16 @@ struct AddVerse: View {
     }
     
     private func save() {
-        let verse = Verse(context: viewContext)
         verse.reference = reference
-        verse.text = self.verse
-        
-        do {
-            try viewContext.save()
-            dismiss()
-        } catch {
-            print(error)
+        verse.text = text
+                
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+                dismiss()
+            } catch {
+                print(error)
+            }
         }
     }
         
@@ -62,7 +66,7 @@ struct AddVerse: View {
                         .font(.caption)
                 }
                 
-                TextArea("Verse", text: $verse)
+                TextArea("Verse", text: $text)
                 if !errors.verse.isEmpty {
                     Text(errors.verse)
                         .font(.caption)
@@ -70,13 +74,17 @@ struct AddVerse: View {
                 
                 HStack {
                     Spacer()
-                    Button("Add Verse") {
+                    Button("Save") {
                         if isFormValid {
                             save()
                         }
                     }
                     Spacer()
                 }
+            }
+            .onAppear {
+                reference = verse.reference ?? ""
+                text = verse.text ?? ""
             }
             .navigationTitle("Memory Verse")
         }
@@ -105,9 +113,9 @@ struct TextArea: View {
             )
     }
 }
-
-struct AddVerse_Previews: PreviewProvider {
-    static var previews: some View {
-        AddVerse()
-    }
-}
+//
+//struct AddVerse_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddEditVerse(verseToEdit: .constant(<#T##value: Verse?##Verse?#>))
+//    }
+//}

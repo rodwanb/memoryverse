@@ -9,37 +9,33 @@ import SwiftUI
 
 struct FlashCard: View {
     
-    let verse: Verse
+    @ObservedObject public var verse: Verse
     
-    @State private var words: [Word]
+    @State private var words: [Word] = []
     @State private var progress: Float = 0.0
-    
-    init(verse: Verse) {
-        self.verse = verse
-        
-        let verseWords: [Word] = verse.text?
-            .components(separatedBy: " ")
-            .map { Word(text: $0) } ?? []
-        
-        self._words = State(initialValue: verseWords)
-    }
+    @State private var isEditVersePresented: Bool = false
     
     private func stepBackward() {
         progress = max(0.0, progress - 0.1)
-        prepareWordsFOrReview()
+        prepareWordsForReview()
     }
     
     private func stepForward() {
         progress = min(1.0, progress + 0.1)
-        prepareWordsFOrReview()
+        prepareWordsForReview()
     }
     
     private func restart() {
+        words.removeAll()
+        let newWords = verse.text?
+            .components(separatedBy: " ")
+            .map { Word(text: $0) } ?? []
+        words.append(contentsOf: newWords)
         progress = 0.0
-        prepareWordsFOrReview()
+        prepareWordsForReview()
     }
     
-    private func prepareWordsFOrReview() {
+    private func prepareWordsForReview() {
         let numberOfWordsToRandomize = Int(Float(words.count) * progress)
         let wordsToReview = words.shuffled().prefix(numberOfWordsToRandomize)
         for index in words.indices {
@@ -49,7 +45,17 @@ struct FlashCard: View {
     }
     
     private func edit() {
-        
+        isEditVersePresented = true
+    }
+    
+    private func toggleHidden(word: Word) {
+        for index in words.indices {
+            if words[index].id == word.id {
+                words[index].hidden.toggle()
+            } else {
+                words[index].hidden = true
+            }
+        }
     }
     
     var body: some View {
@@ -62,7 +68,7 @@ struct FlashCard: View {
                 
                 FlowLayout {
                     ForEach($words) { word in
-                        WordCell(word: word)
+                        WordCell(word: word, toggleHidden: toggleHidden)
                     }
                 }
                 .padding(.bottom, 40)
@@ -99,7 +105,16 @@ struct FlashCard: View {
             }
             .padding()
         }
+        .onChange(of: verse.text, perform: { newValue in
+            restart()
+        })
+        .task {
+            restart()
+        }
         .navigationTitle(verse.reference ?? "")
+        .sheet(isPresented: $isEditVersePresented, content: {
+            AddEditVerse(verse: verse)
+        })
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Edit", action: edit)
@@ -111,6 +126,7 @@ struct FlashCard: View {
 struct WordCell: View {
     
     @Binding var word: Word
+    var toggleHidden: (Word) -> Void
     
     var body: some View {
         Group {
@@ -127,7 +143,8 @@ struct WordCell: View {
                     )
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.25)) {
-                            word.hidden.toggle()
+                            toggleHidden(word)
+//                            word.hidden.toggle()
                         }
                     }
             } else {
@@ -153,14 +170,14 @@ struct ProgressBar: View {
                         height: geometry.size.height
                     )
                     .opacity(0.3)
-                    .foregroundColor(Color(UIColor.systemFill))
+                    .foregroundColor(.secondary)
                 
                 Rectangle()
                     .frame(
                         width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
                         height: geometry.size.height
                     )
-                    .foregroundColor(Color.secondary)
+                    .foregroundColor(.primary)
             }
             .cornerRadius(5.0)
         }
