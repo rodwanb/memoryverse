@@ -19,11 +19,14 @@ enum Bible {
         var id: Int { number }
         var number: Int
         var verses: [Verse]
+        var bookName: String
     }
 
     struct Verse: Identifiable, Hashable {
         var id: Int { number }
         var number: Int
         var text: String
+        var bookName: String
+        var chapterNumber: Int
     }
 }

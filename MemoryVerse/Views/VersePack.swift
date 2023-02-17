@@ -13,6 +13,7 @@ struct VersePack: View {
     @FetchRequest(fetchRequest: Verse.all) private var verses
     
     @State private var isAddVersePresented: Bool = false
+    @State private var showBible: Bool = false
 
     private func deleteVerse(verse: Verse) {
         viewContext.delete(verse)
@@ -25,6 +26,10 @@ struct VersePack: View {
     
     private func add() {
         isAddVersePresented = true
+    }
+    
+    private func lookup() {
+        showBible = true
     }
         
     var body: some View {
@@ -52,10 +57,19 @@ struct VersePack: View {
             .sheet(isPresented: $isAddVersePresented, content: {
                 AddVerse()
             })
+            .sheet(isPresented: $showBible, content: {
+                BibleBooksList()
+            })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: add) {
                         Image(systemName: "plus")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: lookup) {
+                        Image(systemName: "magnifyingglass")
                     }
                 }
             }

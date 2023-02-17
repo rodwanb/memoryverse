@@ -37,12 +37,17 @@ import SQLite
                     let verseQuery = verses
                         .where(bookNumber == record[bookNumber] && chapter == chapterRow[chapter])
                     for verseRow in try db.prepare(verseQuery) {
-                        let bibleVerse = Bible.Verse(number: verseRow[verse], text: verseRow[text])
+                        let bibleVerse = Bible.Verse(
+                            number: verseRow[verse],
+                            text: verseRow[text],
+                            bookName: record[longName],
+                            chapterNumber: chapterRow[chapter])
                         versesForChapter.append(bibleVerse)
                     }
                     let bibleChapter = Bible.Chapter(
                         number: chapterRow[chapter],
-                        verses: versesForChapter)
+                        verses: versesForChapter,
+                        bookName: record[longName])
                     chapters.append(bibleChapter)
                 }
                 let book = Bible.Book(
