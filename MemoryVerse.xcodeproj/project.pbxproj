@@ -26,7 +26,7 @@
 		8F614FBD299C1C4E00D63973 /* EditVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F614FBC299C1C4E00D63973 /* EditVerse.swift */; };
 		8F614FC0299D5EE300D63973 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 8F614FBF299D5EE300D63973 /* SQLite */; };
 		8F614FC4299D60BF00D63973 /* BibleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F614FC3299D60BF00D63973 /* BibleModel.swift */; };
-		8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DA299A231C00955197 /* VersePack.swift */; };
+		8FE3B0DB299A231C00955197 /* MemoryVerseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */; };
 		8FE3B0DD299A233700955197 /* Verse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */; };
 		8FE3B0DF299A2C5D00955197 /* AddVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DE299A2C5D00955197 /* AddVerse.swift */; };
 		8FE3B0E2299A3E8700955197 /* CoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0E1299A3E8700955197 /* CoreDataModel.swift */; };
@@ -72,7 +72,7 @@
 		8F58B8A7299FB8540071AC16 /* BibleVerseDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleVerseDetail.swift; sourceTree = "<group>"; };
 		8F614FBC299C1C4E00D63973 /* EditVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVerse.swift; sourceTree = "<group>"; };
 		8F614FC3299D60BF00D63973 /* BibleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleModel.swift; sourceTree = "<group>"; };
-		8FE3B0DA299A231C00955197 /* VersePack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersePack.swift; sourceTree = "<group>"; };
+		8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVerseList.swift; sourceTree = "<group>"; };
 		8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Verse+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8FE3B0DE299A2C5D00955197 /* AddVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerse.swift; sourceTree = "<group>"; };
 		8FE3B0E1299A3E8700955197 /* CoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataModel.swift; sourceTree = "<group>"; };
@@ -168,15 +168,15 @@
 		8F08343B299975E700C684A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8F0834392999727800C684A9 /* FlowLayout.swift */,
-				8F08343C299979A000C684A9 /* FlashCard.swift */,
-				8FE3B0DA299A231C00955197 /* VersePack.swift */,
 				8FE3B0DE299A2C5D00955197 /* AddVerse.swift */,
-				8F614FBC299C1C4E00D63973 /* EditVerse.swift */,
 				8F58B8A1299FB4630071AC16 /* BibleBooksList.swift */,
 				8F58B8A3299FB6320071AC16 /* BibleChapterList.swift */,
-				8F58B8A5299FB6EE0071AC16 /* BibleVerseList.swift */,
 				8F58B8A7299FB8540071AC16 /* BibleVerseDetail.swift */,
+				8F58B8A5299FB6EE0071AC16 /* BibleVerseList.swift */,
+				8F614FBC299C1C4E00D63973 /* EditVerse.swift */,
+				8F08343C299979A000C684A9 /* FlashCard.swift */,
+				8F0834392999727800C684A9 /* FlowLayout.swift */,
+				8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 			files = (
 				8FE3B0E5299A401700955197 /* MemoryVerseModel.xcdatamodeld in Sources */,
 				8FE3B0DD299A233700955197 /* Verse+CoreDataClass.swift in Sources */,
-				8FE3B0DB299A231C00955197 /* VersePack.swift in Sources */,
+				8FE3B0DB299A231C00955197 /* MemoryVerseList.swift in Sources */,
 				8F0834122999694C00C684A9 /* ContentView.swift in Sources */,
 				8FE3B0E2299A3E8700955197 /* CoreDataModel.swift in Sources */,
 				8F58B8A2299FB4630071AC16 /* BibleBooksList.swift in Sources */,

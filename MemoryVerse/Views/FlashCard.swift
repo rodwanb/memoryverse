@@ -115,11 +115,11 @@ struct FlashCard: View {
         .sheet(isPresented: $isEditVersePresented, content: {
             EditVerse(verse: verse)
         })
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Edit", action: edit)
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button("Edit", action: edit)
+//            }
+//        }
     }
 }
 

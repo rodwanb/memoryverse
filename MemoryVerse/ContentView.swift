@@ -11,7 +11,7 @@ struct ContentView: View {
         
     var body: some View {
         TabView {
-            VersePack()
+            MemoryVerseList()
                 .tabItem {
                     Image(systemName: "goforward.plus")
                     Text("Memorize")

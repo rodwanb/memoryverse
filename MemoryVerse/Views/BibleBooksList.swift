@@ -23,7 +23,8 @@ struct BibleBooksList: View {
             .navigationDestination(for: Bible.Book.self) { book in
                 BibleChapterList(book: book)
             }
-            .navigationTitle("Bible")
+//            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .task {
             if bibleModel.books.isEmpty {

@@ -11,7 +11,7 @@ struct BibleVerseDetail: View {
     
     var verse: Bible.Verse
     
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.customDismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
     private func add() {
@@ -23,7 +23,7 @@ struct BibleVerseDetail: View {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
-                dismiss()
+                dismiss?()
             } catch {
                 print(error)
             }
@@ -41,9 +41,7 @@ struct BibleVerseDetail: View {
         .navigationTitle("Verse \(verse.number)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: add) {
-                    Image(systemName: "goforward.plus")
-                }
+                Button("Save", action: add)
             }
         }
     }

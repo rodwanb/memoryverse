@@ -19,7 +19,7 @@ struct BibleChapterList: View {
                 ForEach(book.chapters) { chapter in
                     NavigationLink(value: chapter) {
                         Text("\(chapter.number)")
-                            .font(.title2)
+                            .font(.title3)
                             .bold()
                             .frame(width: 60, height: 60)
                     }
@@ -32,6 +32,7 @@ struct BibleChapterList: View {
             BibleVerseList(chapter: chapter)
         }
         .navigationTitle(book.longName)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
