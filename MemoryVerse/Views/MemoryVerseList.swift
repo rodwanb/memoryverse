@@ -13,7 +13,8 @@ struct MemoryVerseList: View {
     @FetchRequest(fetchRequest: Verse.all) private var verses
     
     @State private var isAddVersePresented: Bool = false
-
+    @State private var searchText = ""
+    
     private func deleteVerse(verse: Verse) {
         viewContext.delete(verse)
         do {
@@ -36,11 +37,19 @@ struct MemoryVerseList: View {
                     ForEach(verses) { verse in
                         NavigationLink(value: verse) {
                             HStack {
-                                let abbreviation = verse.reference?
-                                    .replacingOccurrences(of: " ", with: "")
-                                    .prefix(3)
+//                                let abbreviation = verse.reference?
+//                                    .replacingOccurrences(of: " ", with: "")
+//                                    .prefix(3)
+                                
+                                let referenceParts = verse.reference?
+                                    .components(separatedBy: " ")
+                                    .map { $0.prefix(1) }
+                                    .prefix(2)
+                                    .reduce("", { result, current in
+                                        return result + current
+                                    })
                                     
-                                Text(abbreviation ?? "")
+                                Text(referenceParts ?? "")
                                     .font(.body)
                                     .padding()
                                     .background(Color(uiColor: UIColor.systemFill))
@@ -63,6 +72,9 @@ struct MemoryVerseList: View {
                             .map { verses[$0] }
                             .forEach(deleteVerse)
                     }
+                    .onMove { source, destination in
+                        // TODO:
+                    }
                 }
             }
             .listStyle(.plain)
@@ -70,6 +82,11 @@ struct MemoryVerseList: View {
                 FlashCard(verse: verse)
             }
             .navigationTitle("Memory Verses")
+            .searchable(text: $searchText, prompt: "Search your memory verses")
+            .onChange(of: searchText) { newValue in
+                verses.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "text CONTAINS[cd] %@ || reference CONTAINS[cd] %@", newValue, newValue)
+            }
+
             .sheet(isPresented: $isAddVersePresented, content: {
                 BibleBooksList()
                     .onCustomDismiss {
@@ -77,6 +94,10 @@ struct MemoryVerseList: View {
                     }
             })
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: add) {
                         Image(systemName: "plus")

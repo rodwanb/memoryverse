@@ -23,6 +23,13 @@ class Verse: NSManagedObject {
         return request
     }
     
+    static func filtered(searchText: String) -> NSFetchRequest<Verse> {
+        let request = Verse.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "dateCreated", ascending: false)]
+        request.predicate = NSPredicate(format: "text CONTAINS[cd] %@ || reference CONTAINS[cd] $@", searchText, searchText)
+        return request
+    }
+    
     static func byId(_ id: NSManagedObjectID) -> Verse {
         let context = CoreDataModel.shared.viewContext
         guard let verse = context.object(with: id) as? Verse else {
