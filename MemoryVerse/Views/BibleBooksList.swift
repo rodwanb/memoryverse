@@ -10,11 +10,23 @@ import SwiftUI
 struct BibleBooksList: View {
     
     @StateObject private var bibleModel = BibleModel()
+    @State private var searchText: String = ""
+    
+    private var filteredBooks: [Bible.Book] {
+        if searchText.isEmpty {
+            return bibleModel.books
+        } else {
+            return bibleModel.books.filter {
+                $0.longName.localizedCaseInsensitiveContains(searchText) ||
+                $0.shortName.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(bibleModel.books) { book in
+                ForEach(filteredBooks) { book in
                     NavigationLink(value: book) {
                         Text(book.longName)
                     }
@@ -25,6 +37,7 @@ struct BibleBooksList: View {
             }
 //            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $searchText, prompt: "Search")
         }
         .task {
             if bibleModel.books.isEmpty {

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FlashCard: View {
     
+    @Environment(\.dismiss) private var dismiss
+    
     @ObservedObject public var verse: Verse
     
     @State private var words: [Word] = []
@@ -21,6 +23,9 @@ struct FlashCard: View {
     }
     
     private func stepForward() {
+        if progress == 1.0 {
+            dismiss()
+        }
         progress = min(1.0, progress + 0.1)
         prepareWordsForReview()
     }
@@ -72,35 +77,7 @@ struct FlashCard: View {
                     }
                 }
                 .padding(.bottom, 40)
-                
-                HStack {
-
-                    Spacer()
-                    
-                    Button(action: restart) {
-                        Image(systemName: "arrow.counterclockwise.circle")
-                            .font(.largeTitle)
-                            .tint(.primary)
-                    }
-                    .padding(.horizontal)
-                    
-                    Button(action: stepBackward) {
-                        Image(systemName: "arrow.backward.circle")
-                            .font(.largeTitle)
-                            .tint(.primary)
-                    }
-                    .disabled(progress == 0.0)
-                    
-                    Button(action: stepForward) {
-                        Image(systemName: "arrow.forward.circle")
-                            .font(.largeTitle)
-                            .tint(.primary)
-                    }
-                    .disabled(progress == 1.0)
-                    
-                }
-                .padding(.bottom)
-                
+                                    
                 Spacer()
             }
             .padding()
@@ -115,11 +92,21 @@ struct FlashCard: View {
         .sheet(isPresented: $isEditVersePresented, content: {
             EditVerse(verse: verse)
         })
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button("Edit", action: edit)
-//            }
-//        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: stepBackward) {
+                    Image(systemName: "arrow.backward")
+                }
+                .disabled(progress == 0.0)
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: stepForward) {
+                    Image(systemName: "arrow.forward")
+                }
+//                .disabled(progress == 1.0)
+            }
+        }
     }
 }
 
@@ -169,14 +156,14 @@ struct ProgressBar: View {
                         height: geometry.size.height
                     )
                     .opacity(0.3)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Color(uiColor: UIColor.systemGray))
                 
                 Rectangle()
                     .frame(
                         width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
                         height: geometry.size.height
                     )
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(uiColor: UIColor.systemBlue))
             }
             .cornerRadius(5.0)
         }
