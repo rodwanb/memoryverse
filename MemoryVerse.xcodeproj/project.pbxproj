@@ -17,6 +17,7 @@
 		8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0834392999727800C684A9 /* FlowLayout.swift */; };
 		8F08343D299979A000C684A9 /* FlashCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343C299979A000C684A9 /* FlashCard.swift */; };
 		8F08344029997EF700C684A9 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F08343F29997EF700C684A9 /* Word.swift */; };
+		8F4DBE3029A56B2800976062 /* ReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4DBE2F29A56B2800976062 /* ReviewList.swift */; };
 		8F58B899299E4D820071AC16 /* KJ21.SQLite3 in Resources */ = {isa = PBXBuildFile; fileRef = 8F58B898299E4D810071AC16 /* KJ21.SQLite3 */; };
 		8F58B89C299E94910071AC16 /* Bible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58B89B299E94910071AC16 /* Bible.swift */; };
 		8F58B8A2299FB4630071AC16 /* BibleBooksList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F58B8A1299FB4630071AC16 /* BibleBooksList.swift */; };
@@ -64,6 +65,7 @@
 		8F0834392999727800C684A9 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		8F08343C299979A000C684A9 /* FlashCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashCard.swift; sourceTree = "<group>"; };
 		8F08343F29997EF700C684A9 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		8F4DBE2F29A56B2800976062 /* ReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewList.swift; sourceTree = "<group>"; };
 		8F58B898299E4D810071AC16 /* KJ21.SQLite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = KJ21.SQLite3; sourceTree = "<group>"; };
 		8F58B89B299E94910071AC16 /* Bible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bible.swift; sourceTree = "<group>"; };
 		8F58B8A1299FB4630071AC16 /* BibleBooksList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleBooksList.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				8F08343C299979A000C684A9 /* FlashCard.swift */,
 				8F0834392999727800C684A9 /* FlowLayout.swift */,
 				8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */,
+				8F4DBE2F29A56B2800976062 /* ReviewList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				8F08343D299979A000C684A9 /* FlashCard.swift in Sources */,
 				8F0834102999694C00C684A9 /* MemoryVerseApp.swift in Sources */,
 				8F614FBD299C1C4E00D63973 /* EditVerse.swift in Sources */,
+				8F4DBE3029A56B2800976062 /* ReviewList.swift in Sources */,
 				8F614FC4299D60BF00D63973 /* BibleModel.swift in Sources */,
 				8F58B8A4299FB6320071AC16 /* BibleChapterList.swift in Sources */,
 				8F58B89C299E94910071AC16 /* Bible.swift in Sources */,

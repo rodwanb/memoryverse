@@ -18,7 +18,7 @@ struct ContentView: View {
                     Text("Memorize")
                 }
             
-            Text("Review")
+            ReviewList()
                 .tabItem {
                     Image(systemName: "note.text")
                     Text("Review")
