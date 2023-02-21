@@ -18,6 +18,9 @@ struct FlashCard: View {
     @State private var isEditVersePresented: Bool = false
     
     private func stepBackward() {
+        guard progress > 0.0 else {
+            return
+        }
         progress = max(0.0, progress - 0.1)
         prepareWordsForReview()
     }
@@ -67,9 +70,26 @@ struct FlashCard: View {
         ScrollView {
             VStack(alignment: .leading) {
                                 
-                ProgressBar(value: $progress)
-                    .frame(height: 8)
-                    .padding(.bottom, 8)
+                HStack(spacing: 0) {
+                    ProgressBar(value: $progress)
+                        .frame(height: 26)
+                        .padding(.trailing)
+                    
+                    Button(action: stepBackward) {
+                        Image(systemName: "arrow.backward.square.fill")
+                            .font(.title)
+                            .bold()
+                    }
+                    .tint(.primary)
+                    
+                    Button(action: stepForward) {
+                        Image(systemName: "arrow.forward.square.fill")
+                            .font(.title)
+                            .bold()
+                    }
+                    .tint(.primary)
+                }
+                .padding(.bottom, 8)
                 
                 FlowLayout {
                     ForEach($words) { word in
@@ -92,21 +112,21 @@ struct FlashCard: View {
         .sheet(isPresented: $isEditVersePresented, content: {
             EditVerse(verse: verse)
         })
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: stepBackward) {
-                    Image(systemName: "arrow.backward")
-                }
-                .disabled(progress == 0.0)
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: stepForward) {
-                    Image(systemName: "arrow.forward")
-                }
-//                .disabled(progress == 1.0)
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(action: stepBackward) {
+//                    Image(systemName: "arrow.backward")
+//                }
+//                .disabled(progress == 0.0)
+//            }
+//
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(action: stepForward) {
+//                    Image(systemName: "arrow.forward")
+//                }
+////                .disabled(progress == 1.0)
+//            }
+//        }
     }
 }
 
@@ -163,7 +183,8 @@ struct ProgressBar: View {
                         width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
                         height: geometry.size.height
                     )
-                    .foregroundColor(Color(uiColor: UIColor.systemBlue))
+                    .foregroundColor(Color(uiColor: UIColor.systemGreen))
+                    .animation(.default, value: value)
             }
             .cornerRadius(5.0)
         }

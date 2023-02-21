@@ -42,42 +42,27 @@ struct MemoryVerseList: View {
                 } else {
                     ForEach(verses) { verse in
                         NavigationLink(value: verse) {
-                            HStack {
-                                let referenceParts = verse.reference?
-                                    .components(separatedBy: " ")
-                                    .map { $0.prefix(1) }
-                                    .prefix(2)
-                                    .reduce("", { result, current in
-                                        return result + current
-                                    })
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(verse.reference ?? "")
+                                        .font(.headline)
                                     
-                                Text(referenceParts ?? "")
-                                    .font(.body)
-                                    .padding()
-                                    .background(Color(uiColor: UIColor.systemFill))
-                                    .clipShape(Circle())
-                                    .frame(width: 70)
-                                
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text(verse.reference ?? "")
-                                            .font(.headline)
-                                        
-                                        Spacer()
-                                        
-                                        if let dateCreated = verse.dateCreated {
-                                            Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
-                                                .lineLimit(1)
-                                                .font(.body)
-                                                .foregroundColor(.secondary)
-                                        }
+                                    Spacer()
+                                    
+                                    if let dateCreated = verse.dateCreated {
+                                        Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
+                                            .lineLimit(1)
+                                            .font(.body)
+                                            .foregroundColor(.secondary)
                                     }
-                                    Text(verse.text ?? "")
-                                        .lineLimit(2)
-                                        .foregroundColor(.secondary)
-                                        .font(.body)
                                 }
+                                
+                                Text(verse.text ?? "")
+                                    .lineLimit(2)
+                                    .foregroundColor(.secondary)
+                                    .font(.body)
                             }
+
                         }
                     }
                     .onDelete { indexSet in
