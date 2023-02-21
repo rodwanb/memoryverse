@@ -15,6 +15,12 @@ struct MemoryVerseList: View {
     @State private var isAddVersePresented: Bool = false
     @State private var searchText = ""
     
+    static let dateCreatedFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
+    
     private func deleteVerse(verse: Verse) {
         viewContext.delete(verse)
         do {
@@ -37,10 +43,6 @@ struct MemoryVerseList: View {
                     ForEach(verses) { verse in
                         NavigationLink(value: verse) {
                             HStack {
-//                                let abbreviation = verse.reference?
-//                                    .replacingOccurrences(of: " ", with: "")
-//                                    .prefix(3)
-                                
                                 let referenceParts = verse.reference?
                                     .components(separatedBy: " ")
                                     .map { $0.prefix(1) }
@@ -57,8 +59,19 @@ struct MemoryVerseList: View {
                                     .frame(width: 70)
                                 
                                 VStack(alignment: .leading) {
-                                    Text(verse.reference ?? "")
-                                        .font(.headline)
+                                    HStack {
+                                        Text(verse.reference ?? "")
+                                            .font(.headline)
+                                        
+                                        Spacer()
+                                        
+                                        if let dateCreated = verse.dateCreated {
+                                            Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
+                                                .lineLimit(1)
+                                                .font(.body)
+                                                .foregroundColor(.secondary)
+                                        }
+                                    }
                                     Text(verse.text ?? "")
                                         .lineLimit(2)
                                         .foregroundColor(.secondary)
@@ -72,9 +85,9 @@ struct MemoryVerseList: View {
                             .map { verses[$0] }
                             .forEach(deleteVerse)
                     }
-                    .onMove { source, destination in
-                        // TODO:
-                    }
+//                    .onMove { source, destination in
+//                        // TODO:
+//                    }
                 }
             }
             .listStyle(.plain)
@@ -83,6 +96,11 @@ struct MemoryVerseList: View {
             }
             .navigationTitle("Memory Verses")
             .searchable(text: $searchText, prompt: "Search your memory verses")
+            .searchSuggestions {
+                // TODO: show recent searches or list tags
+//                Text("In the beginning").searchCompletion("In the beginning")
+//                Text("Genesis").searchCompletion("Genesis")
+            }
             .onChange(of: searchText) { newValue in
                 verses.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "text CONTAINS[cd] %@ || reference CONTAINS[cd] %@", newValue, newValue)
             }
@@ -144,7 +162,6 @@ extension View {
         self.environment(\.customDismiss, CustomDismissAction(action: action))
     }
 }
-
 
 struct VersePack_Previews: PreviewProvider {
     static var previews: some View {

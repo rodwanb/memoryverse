@@ -14,9 +14,7 @@ class Verse: NSManagedObject {
     override func awakeFromInsert() {
         dateCreated = Date()
     }
-    
-//    var words: [Word] = []
-    
+        
     static var all: NSFetchRequest<Verse> {
         let request = Verse.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "dateCreated", ascending: false)]
