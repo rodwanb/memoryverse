@@ -79,7 +79,7 @@ struct MemoryVerseList: View {
             .navigationDestination(for: Verse.self) { verse in
                 FlashCard(verse: verse)
             }
-            .navigationTitle("Memory Verses")
+            .navigationTitle("Verses")
             .searchable(text: $searchText, prompt: "Search your memory verses")
             .searchSuggestions {
                 // TODO: show recent searches or list tags

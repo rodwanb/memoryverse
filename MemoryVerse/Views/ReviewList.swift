@@ -11,24 +11,35 @@ struct ReviewList: View {
     var body: some View {
         NavigationStack {
             List {
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                    Text("Daily")
+                NavigationLink(destination: VerseCardList().navigationTitle("Daily Review")) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("Daily")
+                    }
                 }
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(Color(uiColor: UIColor.systemOrange))
-                    Text("Weekly")
+                
+                NavigationLink(destination: VerseCardList().navigationTitle("Weekly Review")) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color(uiColor: UIColor.systemOrange))
+                        Text("Weekly")
+                    }
                 }
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(Color(uiColor: UIColor.systemGreen))
-                    Text("Monthly")
+                
+                NavigationLink(destination: VerseCardList().navigationTitle("Monthly Review")) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color(uiColor: UIColor.systemGreen))
+                        Text("Monthly")
+                    }
                 }
-                HStack {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(Color(uiColor: UIColor.systemGreen))
-                    Text("Yearly")
+                
+                NavigationLink(destination: VerseCardList().navigationTitle("Yearly Review")) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(Color(uiColor: UIColor.systemGreen))
+                        Text("Yearly")
+                    }
                 }
             }
             .navigationTitle("Review")
