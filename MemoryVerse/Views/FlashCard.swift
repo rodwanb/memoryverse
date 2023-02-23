@@ -193,18 +193,10 @@ struct ProgressBar: View {
 
 
 struct FlashCard_Previews: PreviewProvider {
-    
-    static var verse: Verse = {
-        let context = CoreDataModel.shared.viewContext
-        let verse = Verse(context: context)
-        verse.reference = "Proverbs 22:7"
-        verse.text = "The rich rule over the poor, and the borrower is slave to the lender."
-        return verse
-    }()
-    
+        
     static var previews: some View {
         NavigationStack {
-            FlashCard(verse: verse)
+            FlashCard(verse: Verse.example)
         }
         .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
 

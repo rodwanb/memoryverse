@@ -9,12 +9,16 @@ import SwiftUI
 
 struct BibleVerseDetail: View {
     
-    var verse: Bible.Verse
+    var verses: [Bible.Verse]
     
     @Environment(\.customDismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
     private func add() {
+        guard let verse = verses.first else {
+            return
+        }
+        
         let verseToAdd = Verse(context: viewContext)
         let reference = "\(verse.bookName) \(verse.chapterNumber):\(verse.number)"
         verseToAdd.reference = reference
@@ -30,15 +34,25 @@ struct BibleVerseDetail: View {
         }
     }
     
+    var verseNumbers: String {
+        let verses = verses.reduce(into: "") { partialResult, current in
+            partialResult = partialResult + "\(current.number), "
+        }
+        return String(verses.dropLast(2))
+    }
+    
     var body: some View {
         ScrollView {
             VStack {
-                Text(verse.text)
+                let fullVerse = verses.reduce(into: "") { partialResult, current in
+                    partialResult = partialResult + " \(current.text)"
+                }
+                Text(fullVerse)
                 Spacer()
             }
         }
         .padding()
-        .navigationTitle("Verse \(verse.number)")
+        .navigationTitle("Verses \(verseNumbers)")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save", action: add)
@@ -57,7 +71,7 @@ struct VerseDetail_Previews: PreviewProvider {
         let verse = chapter.verses[0]
         
         return NavigationStack {
-            BibleVerseDetail(verse: verse)
+            BibleVerseDetail(verses: [verse])
         }
     }
 }

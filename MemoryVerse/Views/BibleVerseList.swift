@@ -11,16 +11,29 @@ struct BibleVerseList: View {
     
     var chapter: Bible.Chapter
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    @State private var selectedVerses: [Bible.Verse] = []
+    
+    private let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(chapter.verses) { verse in
-                    NavigationLink(value: verse) {
+                    Button {
+                        if selectedVerses.contains(verse) {
+                            selectedVerses.removeAll { val in
+                                val == verse
+                            }
+                        } else {
+                            selectedVerses.append(verse)
+                        }
+                        selectedVerses.sort { lhs, rhs in
+                            lhs.number < rhs.number
+                        }
+                    } label: {
                         Text("\(verse.number)")
                             .font(.title3)
-                            .bold()
+                            .fontWeight(selectedVerses.contains(verse) ? .bold : .regular)
                             .frame(width: 60, height: 60)
                     }
                     .tint(.primary)
@@ -28,11 +41,19 @@ struct BibleVerseList: View {
             }
             .padding()
         }
-        .navigationDestination(for: Bible.Verse.self) { verse in
-            BibleVerseDetail(verse: verse)
+        .navigationDestination(for: [Bible.Verse].self) { verses in
+            BibleVerseDetail(verses: verses)
         }
         .navigationTitle("\(chapter.bookName) \(chapter.number)")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(value: selectedVerses) {
+                    Text("Done")
+                }
+                .disabled(selectedVerses.isEmpty)
+            }
+        }
     }
 }
 

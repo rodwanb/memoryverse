@@ -36,7 +36,7 @@ struct BibleBooksList: View {
                 BibleChapterList(book: book)
             }
 //            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText, prompt: "Search")
         }
         .task {

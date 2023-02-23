@@ -14,6 +14,13 @@ class Verse: NSManagedObject {
     override func awakeFromInsert() {
         dateCreated = Date()
     }
+    
+    static let example: Verse = {
+        let verse = Verse(context: CoreDataModel.shared.viewContext)
+        verse.reference = "Proverbs 22:7"
+        verse.text = "The rich rule over the poor, and the borrower is slave to the lender."
+        return verse
+    }()
         
     static var all: NSFetchRequest<Verse> {
         let request = Verse.fetchRequest()
