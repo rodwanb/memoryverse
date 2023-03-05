@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Lists: View {
     @State private var searchQuery: String = ""
+    @State private var showNewList: Bool = false
     
     @State var items: [String] = (1...10).map { "Item \($0)" }
     
@@ -63,10 +64,13 @@ struct Lists: View {
                         Spacer()
                         
                         Button("Add List") {
-                            
+                            showNewList.toggle()
                         }
                     }
                 }
+            }
+            .sheet(isPresented: $showNewList) {
+                NewList()
             }
         }
     }
