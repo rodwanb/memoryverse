@@ -30,6 +30,7 @@
 		8F614FC4299D60BF00D63973 /* BibleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F614FC3299D60BF00D63973 /* BibleModel.swift */; };
 		8F9844E529A6A14A0009B328 /* VerseCardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9844E429A6A14A0009B328 /* VerseCardList.swift */; };
 		8F9844E729A7F9E10009B328 /* ReviewDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9844E629A7F9E10009B328 /* ReviewDecks.swift */; };
+		8FB0A45C29AA8293004FD455 /* Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB0A45B29AA8293004FD455 /* Lists.swift */; };
 		8FE3B0DB299A231C00955197 /* MemoryVerseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */; };
 		8FE3B0DD299A233700955197 /* Verse+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */; };
 		8FE3B0DF299A2C5D00955197 /* AddVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE3B0DE299A2C5D00955197 /* AddVerse.swift */; };
@@ -80,6 +81,7 @@
 		8F614FC3299D60BF00D63973 /* BibleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleModel.swift; sourceTree = "<group>"; };
 		8F9844E429A6A14A0009B328 /* VerseCardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseCardList.swift; sourceTree = "<group>"; };
 		8F9844E629A7F9E10009B328 /* ReviewDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDecks.swift; sourceTree = "<group>"; };
+		8FB0A45B29AA8293004FD455 /* Lists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lists.swift; sourceTree = "<group>"; };
 		8FE3B0DA299A231C00955197 /* MemoryVerseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVerseList.swift; sourceTree = "<group>"; };
 		8FE3B0DC299A233700955197 /* Verse+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Verse+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8FE3B0DE299A2C5D00955197 /* AddVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVerse.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				8F4DBE3129A56F2400976062 /* VerseCard.swift */,
 				8F9844E429A6A14A0009B328 /* VerseCardList.swift */,
 				8F9844E629A7F9E10009B328 /* ReviewDecks.swift */,
+				8FB0A45B29AA8293004FD455 /* Lists.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				8F9844E529A6A14A0009B328 /* VerseCardList.swift in Sources */,
 				8F58B8A2299FB4630071AC16 /* BibleBooksList.swift in Sources */,
 				8F08343A2999727800C684A9 /* FlowLayout.swift in Sources */,
+				8FB0A45C29AA8293004FD455 /* Lists.swift in Sources */,
 				8F08344029997EF700C684A9 /* Word.swift in Sources */,
 				8F4DBE3229A56F2400976062 /* VerseCard.swift in Sources */,
 				8F08343D299979A000C684A9 /* FlashCard.swift in Sources */,

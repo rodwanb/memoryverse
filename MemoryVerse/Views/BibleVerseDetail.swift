@@ -20,9 +20,9 @@ struct BibleVerseDetail: View {
         }
         
         let verseToAdd = Verse(context: viewContext)
-        let reference = "\(verse.bookName) \(verse.chapterNumber):\(verse.number)"
+        let reference = "\(verse.bookName) \(verse.chapterNumber):\(verseNumbers)"
         verseToAdd.reference = reference
-        verseToAdd.text = verse.text
+        verseToAdd.text = passage
                 
         if viewContext.hasChanges {
             do {
@@ -31,6 +31,12 @@ struct BibleVerseDetail: View {
             } catch {
                 print(error)
             }
+        }
+    }
+    
+    var passage: String {
+        verses.reduce(into: "") { partialResult, current in
+            partialResult = partialResult + " \(current.text)"
         }
     }
     
@@ -44,10 +50,7 @@ struct BibleVerseDetail: View {
     var body: some View {
         ScrollView {
             VStack {
-                let fullVerse = verses.reduce(into: "") { partialResult, current in
-                    partialResult = partialResult + " \(current.text)"
-                }
-                Text(fullVerse)
+                Text(passage)
                 Spacer()
             }
         }
