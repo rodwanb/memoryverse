@@ -10,12 +10,28 @@ import SwiftUI
 struct NewList: View {
     
     @Environment(\.dismiss) private var dismiss
-    
+    @Environment(\.managedObjectContext) private var viewContext
+        
     @State private var listName: String = ""
     @State private var selectedColor: Color = .blue
     @State private var selectedIcon: String = "list.bullet"
+    @State private var areYouSure: Bool = false
     
-    private var colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .brown]
+    private var colors: [Color] = [
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .teal,
+        .blue,
+        .indigo,
+        .pink,
+        .purple,
+        .brown,
+        .gray,
+        .mint
+    ]
+    
     private var icons: [String] = [
         "list.bullet",
         "bookmark.fill",
@@ -25,11 +41,93 @@ struct NewList: View {
         "graduationcap.fill",
         "backpack.fill",
         "pencil.and.ruler.fill",
-        "doc.fill"
+        "doc.fill",
+        "book.fill",
+        "tray.full.fill",
+        "creditcard.fill",
+        "banknote",
+        "dumbbell.fill",
+        "figure.run",
+        "fork.knife",
+        "wineglass.fill",
+        "pills.fill",
+        "stethoscope",
+        "chair.fill",
+        "house.fill",
+        "building.2.fill",
+        "building.columns",
+        "tent.fill",
+        "tv",
+        "music.note",
+        "desktopcomputer",
+        "gamecontroller.fill",
+        "headphones",
+        "leaf.fill",
+        "carrot.fill",
+        "figure.arms.open",
+        "figure.2.arms.open",
+        "figure.2.and.child.holdinghands",
+        "pawprint.fill",
+        "teddybear.fill",
+        "fish.fill",
+        "basket.fill",
+        "stroller.fill",
+        "bag.fill",
+        "shippingbox.fill",
+        "soccerball",
+        "baseball.fill",
+        "basketball.fill",
+        "football.fill",
+        "tennis.racket",
+        "train.side.front.car",
+        "airplane",
+        "sailboat.fill",
+        "car.fill",
+        "beach.umbrella.fill",
+        "sun.max.fill",
+        "moon.fill",
+        "drop.fill",
+        "snowflake",
+        "flame.fill",
+        "suitcase.fill",
+        "wrench.and.screwdriver.fill",
+        "scissors",
+        "compass.drawing",
+        "curlybraces",
+        "lightbulb.fill",
+        "bubble.left.fill",
+        "staroflife.fill",
+        "square.fill",
+        "circle.fill",
+        "triangle.fill",
+        "diamond.fill",
+        "heart.fill",
+        "star.fill"
     ]
         
     private func saveAndClose() {
+        let entity = ListEntity(context: viewContext)
+        entity.name = listName
+        entity.hexColor = selectedColor.toHex()!
+        entity.iconSystemName = selectedIcon
         
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+                dismiss()
+            } catch {
+                print(error)
+            }
+        }
+
+    }
+    
+    private func cancel() {
+        if !listName.isEmpty || selectedColor != .blue || selectedIcon != "list.bullet" {
+            areYouSure.toggle()
+        } else {
+            dismiss()
+        }
     }
     
     var body: some View {
@@ -64,7 +162,7 @@ struct NewList: View {
                                 
                 Section {
                     LazyVGrid(
-                        columns: [GridItem(.adaptive(minimum: 40), spacing: 12)],
+                        columns: [GridItem(.adaptive(minimum: 34), spacing: 12)],
                         alignment: .center, spacing: 12) {
                         ForEach(colors, id: \.self) { color in
                             ZStack {
@@ -74,7 +172,7 @@ struct NewList: View {
                                 if color == selectedColor {
                                     Circle()
                                         .inset(by: -7)
-                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 4)
+                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 3)
                                 }
                             }
                             .onTapGesture {
@@ -87,7 +185,7 @@ struct NewList: View {
                 
                 Section {
                     LazyVGrid(
-                        columns: [GridItem(.adaptive(minimum: 40), spacing: 12)],
+                        columns: [GridItem(.adaptive(minimum: 34), spacing: 12)],
                         alignment: .center, spacing: 12) {
                         ForEach(icons, id: \.self) { icon in
                             ZStack {
@@ -99,7 +197,7 @@ struct NewList: View {
                                 if icon == selectedIcon {
                                     Circle()
                                         .inset(by: -7)
-                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 4)
+                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 3)
                                 }
                             }
                             .onTapGesture {
@@ -114,7 +212,7 @@ struct NewList: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel", action: dismiss.callAsFunction)
+                    Button("Cancel", action: cancel)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -125,6 +223,22 @@ struct NewList: View {
                     .disabled(listName.isEmpty)
                 }
             }
+            .confirmationDialog("", isPresented: $areYouSure) {
+                Button(role: .destructive) {
+                    dismiss()
+                } label: {
+                    Text("Discard Changes")
+                }
+                
+                Button(role: .cancel) {
+                    
+                } label: {
+                    Text("Cancel")
+                }
+            } message: {
+                EmptyView()
+            }
+
         }
     }
 }
@@ -132,6 +246,7 @@ struct NewList: View {
 struct NewList_Previews: PreviewProvider {
     static var previews: some View {
         NewList()
+            .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
     }
 }
 

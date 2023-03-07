@@ -8,39 +8,57 @@
 import SwiftUI
 
 struct Lists: View {
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(fetchRequest: ListEntity.all) private var lists
+    
     @State private var searchQuery: String = ""
     @State private var showNewList: Bool = false
     
-    @State var items: [String] = (1...10).map { "Item \($0)" }
+//    @State var items: [String] = (1...10).map { "Item \($0)" }
+    
+    private func delete(list: ListEntity) {
+        viewContext.delete(list)
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
     
     var body: some View {
         NavigationStack {
-            List {                
-                Section(header: Text("My Lists").font(.system(.title, design: .rounded, weight: .bold))) {
-                    ForEach(items, id: \.self) { item in
-                        HStack {
-                            Image(systemName: "list.bullet")
-                                .font(.system(.body, design: .rounded, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding(10)
-                                .background(
-                                    Circle()
-                                        .fill(Color.green)
-                                )
-                            
-                            Text(item)
-                            
-                            Spacer()
-                            
-                            Text("0")
+            List {
+                if !lists.isEmpty {
+                    Section(header: Text("My Lists").font(.system(.title, design: .rounded, weight: .bold))) {
+                        ForEach(lists) { list in
+                            HStack {
+                                Image(systemName: list.iconSystemName ?? "")
+                                    .font(.system(.body, design: .rounded, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(
+                                        Circle()
+                                            .fill(list.color)
+                                    )
+                                
+                                Text(list.name ?? "")
+                                    .lineLimit(1)
+                                
+                                Spacer()
+                                
+                                Text("0")
+                            }
+                            .padding(.vertical, 1)
                         }
-                        .padding(.vertical, 1)
+                        .onDelete { indexSet in
+                            indexSet
+                                .map { lists[$0] }
+                                .forEach(delete)
+                        }
                     }
-                    .onDelete { offset in
-                        items.remove(atOffsets: offset)
-                    }
+                    .headerProminence(.increased)
                 }
-                .headerProminence(.increased)
             }
             .searchable(text: $searchQuery)
             .toolbar {
@@ -59,7 +77,7 @@ struct Lists: View {
                                     .font(.system(.body, design: .rounded, weight: .medium))
                             }
                         }
-
+                        .disabled(lists.isEmpty)
                         
                         Spacer()
                         
@@ -79,5 +97,6 @@ struct Lists: View {
 struct Lists_Previews: PreviewProvider {
     static var previews: some View {
         Lists()
+            .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
     }
 }
