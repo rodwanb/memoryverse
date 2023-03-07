@@ -13,18 +13,21 @@ struct NewList: View {
     
     @State private var listName: String = ""
     @State private var selectedColor: Color = .blue
+    @State private var selectedIcon: String = "list.bullet"
     
     private var colors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .brown]
-    
-    private var columns: [GridItem] = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
+    private var icons: [String] = [
+        "list.bullet",
+        "bookmark.fill",
+        "mappin",
+        "gift.fill",
+        "birthday.cake.fill",
+        "graduationcap.fill",
+        "backpack.fill",
+        "pencil.and.ruler.fill",
+        "doc.fill"
     ]
-    
+        
     private func saveAndClose() {
         
     }
@@ -34,15 +37,15 @@ struct NewList: View {
             Form {
                 Section {
                     VStack(alignment: .center) {
-                        Image(systemName: "list.bullet")
-                            .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(
-                                Circle()
-                                    .fill(selectedColor)
-                            )
+                        Circle()
+                            .fill(selectedColor)
+                            .frame(width: 64)
                             .shadow(color: selectedColor.opacity(0.5), radius: 8)
+                            .overlay(
+                                Image(systemName: selectedIcon)
+                                    .font(.system(.title, design: .rounded, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
                         
                         TextField("List Name", text: $listName)
                             .showClearButton($listName)
@@ -52,7 +55,7 @@ struct NewList: View {
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 14)
-                                    .fill(Color(uiColor: UIColor.lightGray).opacity(0.4))
+                                    .fill(Color(uiColor: UIColor.lightGray).opacity(0.3))
                             )
                             .padding()
                     }
@@ -60,7 +63,9 @@ struct NewList: View {
                 }
                                 
                 Section {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 40), spacing: 12)],
+                        alignment: .center, spacing: 12) {
                         ForEach(colors, id: \.self) { color in
                             ZStack {
                                 Circle()
@@ -68,11 +73,37 @@ struct NewList: View {
                                 
                                 if color == selectedColor {
                                     Circle()
-                                        .strokeBorder(Color.gray, lineWidth: 3)
+                                        .inset(by: -7)
+                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 4)
                                 }
                             }
                             .onTapGesture {
                                 selectedColor = color
+                            }
+                        }
+                    }
+                    .padding(.vertical, 6)
+                }
+                
+                Section {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 40), spacing: 12)],
+                        alignment: .center, spacing: 12) {
+                        ForEach(icons, id: \.self) { icon in
+                            ZStack {
+                                Circle()
+                                    .fill(Color(uiColor: UIColor.lightGray).opacity(0.3))
+                                
+                                Image(systemName: icon)
+                                
+                                if icon == selectedIcon {
+                                    Circle()
+                                        .inset(by: -7)
+                                        .strokeBorder(Color.gray.opacity(0.5), lineWidth: 4)
+                                }
+                            }
+                            .onTapGesture {
+                                selectedIcon = icon
                             }
                         }
                     }
