@@ -145,17 +145,30 @@ struct NewList: View {
                                     .foregroundColor(.white)
                             )
                         
-                        TextField("List Name", text: $listName)
-                            .showClearButton($listName)
-                            .font(.system(.title2, design: .rounded, weight: .bold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(selectedColor)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .fill(Color(uiColor: UIColor.lightGray).opacity(0.3))
-                            )
-                            .padding()
+                        HStack {
+                            TextField("List Name", text: $listName)
+                                .font(.system(.title2, design: .rounded, weight: .bold))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(selectedColor)
+                            
+                            Spacer()
+                            
+                            if !listName.isEmpty {
+                                Image(systemName: "multiply.circle.fill")
+                                    .foregroundColor(.secondary)
+                                    .padding(.trailing, 4)
+                                    .onTapGesture {
+                                        listName = ""
+                                    }                                
+                            }
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color(uiColor: UIColor.lightGray).opacity(0.3))
+                        )
+
+                        
                     }
                     .padding(.top)
                 }
