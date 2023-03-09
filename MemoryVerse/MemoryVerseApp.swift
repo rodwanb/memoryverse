@@ -13,7 +13,7 @@ struct MemoryVerseApp: App {
         WindowGroup {
 //            ContentView()
 //            MemoryVerseList()
-            Lists()
+            Home()
                 .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
         }
     }

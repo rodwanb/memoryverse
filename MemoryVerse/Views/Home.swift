@@ -7,16 +7,14 @@
 
 import SwiftUI
 
-struct Lists: View {
+struct Home: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: ListEntity.all) private var lists
     
     @State private var searchQuery: String = ""
     @State private var showNewList: Bool = false
-    
-//    @State var items: [String] = (1...10).map { "Item \($0)" }
-    
+        
     private func delete(list: ListEntity) {
         viewContext.delete(list)
         do {
@@ -32,24 +30,26 @@ struct Lists: View {
                 if !lists.isEmpty {
                     Section(header: Text("My Lists").font(.system(.title, design: .rounded, weight: .bold))) {
                         ForEach(lists) { list in
-                            HStack {
-                                Image(systemName: list.iconSystemName ?? "")
-                                    .font(.system(.body, design: .rounded, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .background(
-                                        Circle()
-                                            .fill(list.color)
-                                    )
-                                
-                                Text(list.name ?? "")
-                                    .lineLimit(1)
-                                
-                                Spacer()
-                                
-                                Text("0")
+                            NavigationLink(value: list) {
+                                HStack {
+                                    Image(systemName: list.iconSystemName ?? "")
+                                        .font(.system(.body, design: .rounded, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .padding(10)
+                                        .background(
+                                            Circle()
+                                                .fill(list.color)
+                                        )
+                                    
+                                    Text(list.name ?? "")
+                                        .lineLimit(1)
+                                    
+                                    Spacer()
+                                    
+                                    Text("0")
+                                }
+                                .padding(.vertical, 1)
                             }
-                            .padding(.vertical, 1)
                         }
                         .onDelete { indexSet in
                             indexSet
@@ -59,6 +59,9 @@ struct Lists: View {
                     }
                     .headerProminence(.increased)
                 }
+            }
+            .navigationDestination(for: ListEntity.self) { list in
+                VerseList()
             }
             .searchable(text: $searchQuery)
             .toolbar {
@@ -88,15 +91,15 @@ struct Lists: View {
                 }
             }
             .sheet(isPresented: $showNewList) {
-                NewList()
+                AddList()
             }
         }
     }
 }
 
-struct Lists_Previews: PreviewProvider {
+struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Lists()
+        Home()
             .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
     }
 }

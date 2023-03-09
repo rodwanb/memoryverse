@@ -1,5 +1,5 @@
 //
-//  NewList.swift
+//  AddList.swift
 //  MemoryVerse
 //
 //  Created by Rodwan Barbier on 2023/03/05.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewList: View {
+struct AddList: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
@@ -256,37 +256,9 @@ struct NewList: View {
     }
 }
 
-struct NewList_Previews: PreviewProvider {
+struct AddList_Previews: PreviewProvider {
     static var previews: some View {
-        NewList()
+        AddList()
             .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
-    }
-}
-
-struct TextFieldClearButton: ViewModifier {
-    @Binding var fieldText: String
-
-    func body(content: Content) -> some View {
-        content
-            .overlay {
-                if !fieldText.isEmpty {
-                    HStack {
-                        Spacer()
-                        Button {
-                            fieldText = ""
-                        } label: {
-                            Image(systemName: "multiply.circle.fill")
-                        }
-                        .foregroundColor(.secondary)
-                        .padding(.trailing, 4)
-                    }
-                }
-            }
-    }
-}
-
-extension View {
-    func showClearButton(_ text: Binding<String>) -> some View {
-        self.modifier(TextFieldClearButton(fieldText: text))
     }
 }
