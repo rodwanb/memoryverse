@@ -27,6 +27,63 @@ struct Home: View {
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    HStack {
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading) {
+                                Image(systemName: "tray.fill")
+                                    .font(.system(.body, design: .rounded, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(
+                                        Circle()
+                                            .fill(.blue)
+                                    )
+                                
+                                Text("All")
+                                    .font(.system(.body, design: .rounded, weight: .medium))
+                                    .padding(.leading, 2)
+                            }
+                            
+                            Spacer()
+                            
+                            Text("0")
+                                .font(.system(.title, design: .rounded, weight: .bold))
+                        }
+                        .padding()
+                        .background()
+                        .cornerRadius(4)
+                        
+                        Spacer()
+                        
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(.body, design: .rounded, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(
+                                        Circle()
+                                            .fill(.red)
+                                    )
+                                
+                                Text("Completed")
+                                    .font(.system(.body, design: .rounded, weight: .medium))
+                            }
+                            
+                            Spacer()
+                            
+                            Text("0")
+                                .font(.system(.title, design: .rounded, weight: .bold))
+                        }
+                        .padding()
+                        .background()
+                        .cornerRadius(4)
+                    }
+                }
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                
                 if !lists.isEmpty {
                     Section(header: Text("My Lists").font(.system(.title, design: .rounded, weight: .bold))) {
                         ForEach(lists) { list in
