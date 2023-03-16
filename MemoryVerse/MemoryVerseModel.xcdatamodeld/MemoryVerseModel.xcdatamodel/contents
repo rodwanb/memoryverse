@@ -5,10 +5,12 @@
         <attribute name="hexColor" attributeType="String" defaultValueString=""/>
         <attribute name="iconSystemName" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
+        <relationship name="verses" toMany="YES" deletionRule="Cascade" destinationEntity="Verse" inverseName="list" inverseEntity="Verse"/>
     </entity>
     <entity name="Verse" representedClassName="Verse" syncable="YES" codeGenerationType="category">
         <attribute name="dateCreated" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="reference" attributeType="String" defaultValueString=""/>
         <attribute name="text" attributeType="String" defaultValueString=""/>
+        <relationship name="list" maxCount="1" deletionRule="Nullify" destinationEntity="ListEntity" inverseName="verses" inverseEntity="ListEntity"/>
     </entity>
 </model>

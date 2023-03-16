@@ -16,6 +16,15 @@ class ListEntity: NSManagedObject {
         dateCreated = Date()
     }
     
+    static let example: ListEntity = {
+        let entity = ListEntity(context: CoreDataModel.shared.viewContext)
+        entity.name = "Review List"
+        entity.hexColor = Color.blue.toHex()
+        entity.iconSystemName = "list.bullet"
+        entity.addToVerses(.example)
+        return entity
+    }()
+    
     var color: Color {
         guard let hexColor else {
             return .blue

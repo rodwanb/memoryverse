@@ -8,36 +8,124 @@
 import SwiftUI
 
 struct VerseList: View {
+    
+    @ObservedObject var list: ListEntity    
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var isAddVersePresented: Bool = false
+    
+    var verses: [Verse] {
+        guard let listVerses = list.verses as? Set<Verse> else {
+            return []
+        }
+        
+        return Array(listVerses)
+    }
+    
+    static let dateCreatedFormat: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }()
+    
+    private func deleteVerse(verse: Verse) {
+        viewContext.delete(verse)
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func add() {
+        isAddVersePresented.toggle()
+    }
+    
     var body: some View {
-        Text("No Verses")
-            .foregroundColor(.secondary)
-            .navigationTitle("Verse Pack")
-            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    HStack {
-                        Button {
-                            print("New Verse")
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                Text("New Verse")
-                                    .font(.system(.body, design: .rounded, weight: .medium))
+        Group {
+            if verses.isEmpty {
+                Text("No Verses")
+                    .foregroundColor(.secondary)
+            } else {
+                List {
+                    ForEach(Array(verses)) { verse in
+                        NavigationLink(value: verse) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(verse.reference ?? "")
+                                        .font(.headline)
+                                    
+                                    Spacer()
+                                    
+                                    if let dateCreated = verse.dateCreated {
+                                        Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
+                                            .lineLimit(1)
+                                            .font(.body)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                
+                                Text(verse.text ?? "")
+                                    .lineLimit(2)
+                                    .foregroundColor(.secondary)
+                                    .font(.body)
                             }
+                            
                         }
-                        
-                        Spacer()
+                    }
+                    .onDelete { indexSet in
+                        indexSet
+                            .map { verses[$0] }
+                            .forEach(deleteVerse)
                     }
                 }
+                .navigationDestination(for: Verse.self) { verse in
+                    FlashCard(verse: verse)
+                }
+                .listStyle(.plain)
             }
+        }
+        .foregroundColor(.secondary)
+        .navigationTitle(list.name ?? "")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    print("show context menu")
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                HStack {
+                    Button(action: add) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("New Verse")
+                                .font(.system(.body, design: .rounded, weight: .medium))
+                        }
+                    }
+                    
+                    Spacer()
+                }
+            }
+        }
+        .sheet(isPresented: $isAddVersePresented, content: {
+            BibleBooksList()
+                .environmentObject(list)
+                .onCustomDismiss {
+                    isAddVersePresented.toggle()
+                }
+        })
+
     }
 }
 
 struct VerseList_Previews: PreviewProvider {
     static var previews: some View {
-        VerseList()
+        NavigationStack {
+            VerseList(list: .example)
+        }
+        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
     }
 }

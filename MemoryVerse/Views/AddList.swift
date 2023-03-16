@@ -167,7 +167,7 @@ struct AddList: View {
                             RoundedRectangle(cornerRadius: 14)
                                 .fill(Color(uiColor: UIColor.lightGray).opacity(0.3))
                         )
-
+                        .padding()
                         
                     }
                     .padding(.top)

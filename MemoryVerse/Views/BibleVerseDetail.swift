@@ -11,6 +11,7 @@ struct BibleVerseDetail: View {
     
     var verses: [Bible.Verse]
     
+    @EnvironmentObject private var listEntity: ListEntity
     @Environment(\.customDismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -23,6 +24,8 @@ struct BibleVerseDetail: View {
         let reference = "\(verse.bookName) \(verse.chapterNumber):\(verseNumbers)"
         verseToAdd.reference = reference
         verseToAdd.text = passage
+        
+        listEntity.addToVerses(verseToAdd)
                 
         if viewContext.hasChanges {
             do {

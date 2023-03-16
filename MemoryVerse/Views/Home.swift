@@ -46,7 +46,7 @@ struct Home: View {
                                     
                                     Spacer()
                                     
-                                    Text("0")
+                                    Text("\(list.verses?.count ?? 0)")
                                 }
                                 .padding(.vertical, 1)
                             }
@@ -61,7 +61,7 @@ struct Home: View {
                 }
             }
             .navigationDestination(for: ListEntity.self) { list in
-                VerseList()
+                VerseList(list: list)
             }
             .searchable(text: $searchQuery)
             .toolbar {
