@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Home: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(fetchRequest: ListEntity.all) private var lists
     
@@ -28,21 +29,19 @@ struct Home: View {
         NavigationStack {
             List {
                 Section {
-                    HStack {
+                    HStack(spacing: 16) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading) {
-                                Image(systemName: "tray.fill")
-                                    .font(.system(.body, design: .rounded, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .background(
-                                        Circle()
-                                            .fill(.blue)
+                                Circle()
+                                    .fill(.blue)
+                                    .frame(width: 38)
+                                    .overlay(
+                                        Image(systemName: "tray.fill")
+                                            .foregroundColor(.white)
                                     )
                                 
                                 Text("All")
                                     .font(.system(.body, design: .rounded, weight: .medium))
-                                    .padding(.leading, 2)
                             }
                             
                             Spacer()
@@ -51,22 +50,21 @@ struct Home: View {
                                 .font(.system(.title, design: .rounded, weight: .bold))
                         }
                         .padding()
-                        .background()
-                        .cornerRadius(4)
-                        
-                        Spacer()
+                        .background(
+                            colorScheme == .dark ? Color(uiColor: UIColor.tertiarySystemFill) : Color.white
+                        )
+                        .cornerRadius(8)
                         
                         HStack(alignment: .top) {
                             VStack(alignment: .leading) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(.body, design: .rounded, weight: .bold))
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .background(
-                                        Circle()
-                                            .fill(.red)
+                                Circle()
+                                    .fill(.red)
+                                    .frame(width: 38)
+                                    .overlay(
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .foregroundColor(.white)
                                     )
-                                
+                                                                
                                 Text("Completed")
                                     .font(.system(.body, design: .rounded, weight: .medium))
                             }
@@ -77,9 +75,12 @@ struct Home: View {
                                 .font(.system(.title, design: .rounded, weight: .bold))
                         }
                         .padding()
-                        .background()
-                        .cornerRadius(4)
+                        .background(
+                            colorScheme == .dark ? Color(uiColor: UIColor.tertiarySystemFill) : Color.white
+                        )
+                        .cornerRadius(8)
                     }
+                    .padding(.top)
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -89,15 +90,15 @@ struct Home: View {
                         ForEach(lists) { list in
                             NavigationLink(value: list) {
                                 HStack {
-                                    Image(systemName: list.iconSystemName ?? "")
-                                        .font(.system(.body, design: .rounded, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .background(
-                                            Circle()
-                                                .fill(list.color)
+                                    Circle()
+                                        .fill(list.color)
+                                        .frame(width: 38)
+                                        .overlay(
+                                            Image(systemName: list.iconSystemName ?? "list.bullet")
+                                                .foregroundColor(.white)
                                         )
-                                    
+                                        .padding(.trailing, 4)
+                                                                        
                                     Text(list.name ?? "")
                                         .lineLimit(1)
                                     
