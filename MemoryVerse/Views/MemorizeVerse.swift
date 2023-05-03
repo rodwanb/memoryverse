@@ -10,9 +10,7 @@ import SwiftUI
 struct MemorizeVerse: View {
     
     @Environment(\.dismiss) private var dismiss
-    
     @ObservedObject public var verse: Verse
-    
     @State private var words: [Word] = []
     @State private var progress: Float = 0.0
     
@@ -226,7 +224,6 @@ struct FlowLayout: Layout {
     }
 }
 
-
 struct FlashCard_Previews: PreviewProvider {
         
     static var previews: some View {
@@ -234,6 +231,5 @@ struct FlashCard_Previews: PreviewProvider {
             MemorizeVerse(verse: Verse.example)
         }
         .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
-
     }
 }

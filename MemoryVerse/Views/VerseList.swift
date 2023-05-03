@@ -42,51 +42,6 @@ struct VerseList: View {
     }
     
     var body: some View {
-//        Group {
-//            if verses.isEmpty {
-//                Text("No Verses")
-//                    .foregroundColor(.secondary)
-//            } else {
-//                List(selection: $selectedVerse) {
-//                    ForEach(Array(verses)) { verse in
-//                        NavigationLink(value: verse) {
-//                            VStack(alignment: .leading) {
-//                                HStack {
-//                                    Text(verse.reference ?? "")
-//                                        .font(.headline)
-//
-//                                    Spacer()
-//
-//                                    if let dateCreated = verse.dateCreated {
-//                                        Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
-//                                            .lineLimit(1)
-//                                            .font(.body)
-//                                            .foregroundColor(.secondary)
-//                                    }
-//                                }
-//
-//                                Text(verse.text ?? "")
-//                                    .lineLimit(2)
-//                                    .foregroundColor(.secondary)
-//                                    .font(.body)
-//                            }
-////                            .onTapGesture {
-////                                selectedVerse = verse
-////                            }
-//                        }
-//                    }
-//                    .onDelete { indexSet in
-//                        indexSet
-//                            .map { verses[$0] }
-//                            .forEach(deleteVerse)
-//                    }
-//                }
-////                .navigationDestination(for: Verse.self) { verse in
-////                    MemorizeVerse(verse: verse)
-////                }
-//                .listStyle(.plain)
-//            }
-//        }
         List(selection: $selectedVerse) {
             ForEach(Array(verses)) { verse in
                 NavigationLink(value: verse) {
@@ -110,9 +65,6 @@ struct VerseList: View {
                             .foregroundColor(.secondary)
                             .font(.body)
                     }
-//                            .onTapGesture {
-//                                selectedVerse = verse
-//                            }
                 }
             }
             .onDelete { indexSet in
@@ -121,13 +73,9 @@ struct VerseList: View {
                     .forEach(deleteVerse)
             }
         }
-//                .navigationDestination(for: Verse.self) { verse in
-//                    MemorizeVerse(verse: verse)
-//                }
         .listStyle(.plain)
         .foregroundColor(.secondary)
         .navigationTitle(folder.name ?? "")
-//        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
