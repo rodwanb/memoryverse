@@ -18,7 +18,6 @@ struct VerseList: View {
         guard let listVerses = folder.verses as? Set<Verse> else {
             return []
         }
-        
         return Array(listVerses)
     }
     
@@ -73,8 +72,6 @@ struct VerseList: View {
                     .forEach(deleteVerse)
             }
         }
-        .listStyle(.plain)
-        .foregroundColor(.secondary)
         .navigationTitle(folder.name ?? "")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -106,15 +103,14 @@ struct VerseList: View {
                     isAddVersePresented.toggle()
                 }
         })
-
     }
 }
 
-//struct VerseList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationStack {
-//            VerseList(list: .example, selectedVerse: .constant(nil))
-//        }
-//        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
-//    }
-//}
+struct VerseList_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            VerseList(folder: .example, selectedVerse: .constant(nil))
+        }
+        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+    }
+}

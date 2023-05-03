@@ -11,7 +11,7 @@ import SwiftUI
 struct MemoryVerseApp: App {
     var body: some Scene {
         WindowGroup {
-            Home()
+            ContentView()
                 .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
         }
     }
