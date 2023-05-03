@@ -1,5 +1,5 @@
 //
-//  FlashCard.swift
+//  MemorizeVerse.swift
 //  MemoryVerse
 //
 //  Created by Rodwan Barbier on 2023/02/12.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FlashCard: View {
+struct MemorizeVerse: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -15,7 +15,6 @@ struct FlashCard: View {
     
     @State private var words: [Word] = []
     @State private var progress: Float = 0.0
-    @State private var isEditVersePresented: Bool = false
     
     private func stepBackward() {
         guard progress > 0.0 else {
@@ -51,11 +50,7 @@ struct FlashCard: View {
             words[index].hidden = true
         }
     }
-    
-    private func edit() {
-        isEditVersePresented = true
-    }
-    
+        
     private func toggleHidden(word: Word) {
         for index in words.indices {
             if words[index].id == word.id {
@@ -109,24 +104,6 @@ struct FlashCard: View {
             restart()
         }
         .navigationTitle(verse.reference ?? "")
-        .sheet(isPresented: $isEditVersePresented, content: {
-            EditVerse(verse: verse)
-        })
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button(action: stepBackward) {
-//                    Image(systemName: "arrow.backward")
-//                }
-//                .disabled(progress == 0.0)
-//            }
-//
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button(action: stepForward) {
-//                    Image(systemName: "arrow.forward")
-//                }
-////                .disabled(progress == 1.0)
-//            }
-//        }
     }
 }
 
@@ -191,12 +168,70 @@ struct ProgressBar: View {
     }
 }
 
+// Reference: https://swiftwithmajid.com/2022/11/16/building-custom-layout-in-swiftui-basics/
+struct FlowLayout: Layout {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        
+        var totalHeight: CGFloat = 0
+        var totalWidth: CGFloat = 0
+        
+        var lineWidth: CGFloat = 0
+        var lineHeight: CGFloat = 0
+        
+        for size in sizes {
+            if lineWidth + size.width > proposal.width ?? 0 {
+                totalHeight += lineHeight
+                lineWidth = size.width
+                lineHeight = size.height
+            } else {
+                lineWidth += size.width
+                lineHeight = max(lineHeight, size.height)
+            }
+            
+            totalWidth = max(totalWidth, lineWidth)
+        }
+        
+        totalHeight += lineHeight
+        
+        return .init(width: totalWidth, height: totalHeight)
+    }
+    
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        
+        var lineX = bounds.minX
+        var lineY = bounds.minY
+        var lineHeight: CGFloat = 0
+        
+        for index in subviews.indices {
+            if lineX + sizes[index].width > (proposal.width ?? 0) {
+                lineY += lineHeight
+                lineHeight = 0
+                lineX = bounds.minX
+            }
+            
+            subviews[index].place(
+                at: .init(
+                    x: lineX + sizes[index].width / 2,
+                    y: lineY + sizes[index].height / 2
+                ),
+                anchor: .center,
+                proposal: ProposedViewSize(sizes[index])
+            )
+            
+            lineHeight = max(lineHeight, sizes[index].height)
+            lineX += sizes[index].width
+        }
+    }
+}
+
 
 struct FlashCard_Previews: PreviewProvider {
         
     static var previews: some View {
         NavigationStack {
-            FlashCard(verse: Verse.example)
+            MemorizeVerse(verse: Verse.example)
         }
         .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
 

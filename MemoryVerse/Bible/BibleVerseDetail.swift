@@ -11,7 +11,7 @@ struct BibleVerseDetail: View {
     
     var verses: [Bible.Verse]
     
-    @EnvironmentObject private var listEntity: ListEntity
+    @EnvironmentObject private var folder: Folder
     @Environment(\.customDismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -25,7 +25,7 @@ struct BibleVerseDetail: View {
         verseToAdd.reference = reference
         verseToAdd.text = passage
         
-        listEntity.addToVerses(verseToAdd)
+        folder.addToVerses(verseToAdd)
                 
         if viewContext.hasChanges {
             do {
@@ -79,5 +79,42 @@ struct VerseDetail_Previews: PreviewProvider {
         return NavigationStack {
             BibleVerseDetail(verses: [verse])
         }
+    }
+}
+
+extension String {
+    func removing(prefixes: [String]) -> String {
+        var resultString = self
+        _ = prefixes.map {
+            if resultString.hasPrefix($0) {
+                resultString = resultString.dropFirst($0.count).description
+            }
+        }
+        return resultString
+    }
+}
+
+struct CustomDismissAction {
+    typealias Action = () -> ()
+    let action: Action
+    func callAsFunction() {
+        action()
+    }
+}
+
+struct CustomDismissActionKey: EnvironmentKey {
+    static var defaultValue: CustomDismissAction? = nil
+}
+
+extension EnvironmentValues {
+    var customDismiss: CustomDismissAction? {
+        get { self[CustomDismissActionKey.self] }
+        set { self[CustomDismissActionKey.self] = newValue }
+    }
+}
+
+extension View {
+    func onCustomDismiss(_ action: @escaping CustomDismissAction.Action) -> some View {
+        self.environment(\.customDismiss, CustomDismissAction(action: action))
     }
 }
