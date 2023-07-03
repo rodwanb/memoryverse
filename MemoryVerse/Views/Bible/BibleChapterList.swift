@@ -16,9 +16,9 @@ struct BibleChapterList: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(book.chapters) { chapter in
+                ForEach(book.chapters, id: \.self) { chapter in
                     NavigationLink(value: chapter) {
-                        Text("\(chapter.number)")
+                        Text("\(chapter.num)")
                             .font(.title3)
                             .bold()
                             .frame(width: 60, height: 60)
@@ -31,18 +31,20 @@ struct BibleChapterList: View {
         .navigationDestination(for: Bible.Chapter.self) { chapter in
             BibleVerseList(chapter: chapter)
         }
-        .navigationTitle(book.longName)
+        .navigationTitle(book.name)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct BibleChapterList_Previews: PreviewProvider {
     static var previews: some View {
-        let model = BibleModel()
-        model.load()
+        let model = BibleStore()
+        Task {
+            await model.load()
+        }
         
         return NavigationStack {
-            BibleChapterList(book: model.books[0])
+            BibleChapterList(book: model.bible.books[0])
         }
     }
 }

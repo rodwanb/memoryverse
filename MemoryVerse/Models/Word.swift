@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Word: Identifiable, Equatable {
-    var id: String = UUID().uuidString
+struct Word: Codable, Identifiable, Equatable {
+    var id = UUID()
     var text: String
     var hidden: Bool = false
     var review: Bool = false

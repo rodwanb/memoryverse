@@ -10,7 +10,7 @@ import SwiftUI
 struct MemorizeVerse: View {
     
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject public var verse: Verse
+    var verse: Verse
     @State private var words: [Word] = []
     @State private var progress: Float = 0.0
     
@@ -32,9 +32,9 @@ struct MemorizeVerse: View {
     
     private func restart() {
         words.removeAll()
-        let newWords = verse.text?
+        let newWords = verse.text
             .components(separatedBy: " ")
-            .map { Word(text: $0) } ?? []
+            .map { Word(text: $0) }
         words.append(contentsOf: newWords)
         progress = 0.0
         prepareWordsForReview()
@@ -101,7 +101,7 @@ struct MemorizeVerse: View {
         .task {
             restart()
         }
-        .navigationTitle(verse.reference ?? "")
+        .navigationTitle(verse.reference)
     }
 }
 
@@ -230,6 +230,6 @@ struct FlashCard_Previews: PreviewProvider {
         NavigationStack {
             MemorizeVerse(verse: Verse.example)
         }
-        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+        .environmentObject(BibleStore())
     }
 }

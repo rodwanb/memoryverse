@@ -11,30 +11,30 @@ struct BibleVerseDetail: View {
     
     var verses: [Bible.Verse]
     
-    @EnvironmentObject private var folder: Folder
+//    @EnvironmentObject private var folder: Folder
     @Environment(\.customDismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
     private func add() {
-        guard let verse = verses.first else {
-            return
-        }
-        
-        let verseToAdd = Verse(context: viewContext)
-        let reference = "\(verse.bookName) \(verse.chapterNumber):\(verseNumbers)"
-        verseToAdd.reference = reference
-        verseToAdd.text = passage
-        
-        folder.addToVerses(verseToAdd)
-                
-        if viewContext.hasChanges {
-            do {
-                try viewContext.save()
-                dismiss?()
-            } catch {
-                print(error)
-            }
-        }
+//        guard let verse = verses.first else {
+//            return
+//        }
+//
+//        let verseToAdd = Verse(context: viewContext)
+//        let reference = "\(verse.bookName) \(verse.chapterNumber):\(verseNumbers)"
+//        verseToAdd.reference = reference
+//        verseToAdd.text = passage
+//
+//        folder.addToVerses(verseToAdd)
+//
+//        if viewContext.hasChanges {
+//            do {
+//                try viewContext.save()
+//                dismiss?()
+//            } catch {
+//                print(error)
+//            }
+//        }
     }
     
     var passage: String {
@@ -45,7 +45,7 @@ struct BibleVerseDetail: View {
     
     var verseNumbers: String {
         let verses = verses.reduce(into: "") { partialResult, current in
-            partialResult = partialResult + "\(current.number), "
+            partialResult = partialResult + "\(current.num), "
         }
         return String(verses.dropLast(2))
     }
@@ -69,10 +69,12 @@ struct BibleVerseDetail: View {
 
 struct VerseDetail_Previews: PreviewProvider {
     static var previews: some View {
-        let model = BibleModel()
-        model.load()
+        let model = BibleStore()
+        Task {
+            await model.load()
+        }
         
-        let book = model.books[0]
+        let book = model.bible.books[0]
         let chapter = book.chapters[0]
         let verse = chapter.verses[0]
         

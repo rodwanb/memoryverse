@@ -9,18 +9,12 @@ import SwiftUI
 
 struct VerseList: View {
     
-    @ObservedObject var folder: Folder
+    @EnvironmentObject private var store: BibleStore
+        
+    var folder: Folder
     @Binding var selectedVerse: Verse?
-    @Environment(\.managedObjectContext) private var viewContext
     @State private var isAddVersePresented: Bool = false
-    
-    var verses: [Verse] {
-        guard let listVerses = folder.verses as? Set<Verse> else {
-            return []
-        }
-        return Array(listVerses)
-    }
-    
+        
     static let dateCreatedFormat: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -28,12 +22,12 @@ struct VerseList: View {
     }()
     
     private func deleteVerse(verse: Verse) {
-        viewContext.delete(verse)
-        do {
-            try viewContext.save()
-        } catch {
-            print(error)
-        }
+//        viewContext.delete(verse)
+//        do {
+//            try viewContext.save()
+//        } catch {
+//            print(error)
+//        }
     }
     
     private func add() {
@@ -42,24 +36,22 @@ struct VerseList: View {
     
     var body: some View {
         List(selection: $selectedVerse) {
-            ForEach(Array(verses)) { verse in
+            ForEach(folder.verses) { verse in
                 NavigationLink(value: verse) {
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(verse.reference ?? "")
+                            Text(verse.reference)
                                 .font(.headline)
                             
                             Spacer()
                             
-                            if let dateCreated = verse.dateCreated {
-                                Text("\(dateCreated, formatter: Self.dateCreatedFormat)")
-                                    .lineLimit(1)
-                                    .font(.body)
-                                    .foregroundColor(.secondary)
-                            }
+                            Text("\(verse.dateCreated, formatter: Self.dateCreatedFormat)")
+                                .lineLimit(1)
+                                .font(.body)
+                                .foregroundColor(.secondary)
                         }
                         
-                        Text(verse.text ?? "")
+                        Text(verse.text)
                             .lineLimit(2)
                             .foregroundColor(.secondary)
                             .font(.body)
@@ -68,11 +60,11 @@ struct VerseList: View {
             }
             .onDelete { indexSet in
                 indexSet
-                    .map { verses[$0] }
+                    .map { folder.verses[$0] }
                     .forEach(deleteVerse)
             }
         }
-        .navigationTitle(folder.name ?? "")
+        .navigationTitle(folder.name)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -98,7 +90,7 @@ struct VerseList: View {
         }
         .sheet(isPresented: $isAddVersePresented, content: {
             BibleBooksList()
-                .environmentObject(folder)
+                .environmentObject(store)
                 .onCustomDismiss {
                     isAddVersePresented.toggle()
                 }
@@ -111,6 +103,6 @@ struct VerseList_Previews: PreviewProvider {
         NavigationStack {
             VerseList(folder: .example, selectedVerse: .constant(nil))
         }
-        .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+        .environmentObject(BibleStore())
     }
 }

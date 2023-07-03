@@ -9,10 +9,9 @@ import SwiftUI
 
 struct FolderList: View {
     
+    @EnvironmentObject private var store: BibleStore
+    
     @Binding var selectedFolder: Folder?
-
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: Folder.all) private var folders
         
     @State private var showNewList: Bool = false
     @State private var searchQuery: String = ""
@@ -20,56 +19,40 @@ struct FolderList: View {
     @AppStorage("dataSeeded.folders") private var dataSeeded: Bool = false
 
     private func seedFolderData() {
-        let entity = Folder(context: viewContext)
-        entity.name = "Verses"
-        save()
+        store.addFolder(name: "Verses")
         dataSeeded = true
     }
     
     private func delete(folder: Folder) {
-        viewContext.delete(folder)
-        save()
+        store.deleteFolder(folder: folder)
     }
     
     private func addFolder() {
-        guard !folderName.isEmpty else { return }
-        let entity = Folder(context: viewContext)
-        entity.name = folderName
-        save()
+        store.addFolder(name: folderName)
         folderName = ""
-    }
-    
-    private func save() {
-        if viewContext.hasChanges {
-            do {
-                try viewContext.save()
-            } catch {
-                print(error)
-            }
-        }
     }
     
     var body: some View {
         List(selection: $selectedFolder) {
-            ForEach(folders) { list in
+            ForEach(store.folders) { list in
                 NavigationLink(value: list) {
                     HStack {
                         Image(systemName: "folder")
                             .foregroundColor(.accentColor)
                         
-                        Text(list.name ?? "")
+                        Text(list.name)
                             .lineLimit(1)
                         
                         Spacer()
                         
-                        Text("\(list.verses?.count ?? 0)")
+                        Text("\(list.verses.count)")
                     }
                     .padding(.vertical, 1)
                 }
             }
             .onDelete { indexSet in
                 indexSet
-                    .map { folders[$0] }
+                    .map { store.folders[$0] }
                     .forEach(delete)
             }
         }
@@ -96,7 +79,7 @@ struct FolderList: View {
             Text("Enter a name for this folder.")
         })
         .onAppear {
-            if !dataSeeded && folders.isEmpty {
+            if !dataSeeded && store.folders.isEmpty {
                 seedFolderData()
             }
         }
@@ -107,7 +90,7 @@ struct FolderList_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             FolderList(selectedFolder: .constant(nil))
-                .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
         }
+        .environmentObject(BibleStore())
     }
 }

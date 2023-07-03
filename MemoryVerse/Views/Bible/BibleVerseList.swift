@@ -18,7 +18,7 @@ struct BibleVerseList: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(chapter.verses) { verse in
+                ForEach(chapter.verses, id: \.self) { verse in
                     Button {
                         if selectedVerses.contains(verse) {
                             selectedVerses.removeAll { val in
@@ -27,11 +27,11 @@ struct BibleVerseList: View {
                         } else {
                             selectedVerses.append(verse)
                         }
-                        selectedVerses.sort { lhs, rhs in
-                            lhs.number < rhs.number
-                        }
+//                        selectedVerses.sort { lhs, rhs in
+//                            lhs.number < rhs.number
+//                        }
                     } label: {
-                        Text("\(verse.number)")
+                        Text("\(verse.num)")
                             .font(.title3)
                             .fontWeight(selectedVerses.contains(verse) ? .bold : .regular)
                             .frame(width: 60, height: 60)
@@ -44,7 +44,7 @@ struct BibleVerseList: View {
         .navigationDestination(for: [Bible.Verse].self) { verses in
             BibleVerseDetail(verses: verses)
         }
-        .navigationTitle("\(chapter.bookName) \(chapter.number)")
+        .navigationTitle("Book name \(chapter.num)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -59,10 +59,12 @@ struct BibleVerseList: View {
 
 struct BibleVerseList_Previews: PreviewProvider {
     static var previews: some View {
-        let model = BibleModel()
-        model.load()
+        let model = BibleStore()
+        Task {
+            await model.load()
+        }
         
-        let book = model.books[0]
+        let book = model.bible.books[0]
         let chapter = book.chapters[0]
         
         return NavigationStack {

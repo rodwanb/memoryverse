@@ -9,16 +9,15 @@ import SwiftUI
 
 struct BibleBooksList: View {
     
-    @StateObject private var bibleModel = BibleModel()
+    @EnvironmentObject private var store: BibleStore
     @State private var searchText: String = ""
     
     private var filteredBooks: [Bible.Book] {
         if searchText.isEmpty {
-            return bibleModel.books
+            return store.bible.books
         } else {
-            return bibleModel.books.filter {
-                $0.longName.localizedCaseInsensitiveContains(searchText) ||
-                $0.shortName.localizedCaseInsensitiveContains(searchText)
+            return store.bible.books.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText)
             }
         }
     }
@@ -26,9 +25,9 @@ struct BibleBooksList: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(filteredBooks) { book in
+                ForEach(store.bible.books, id: \.self) { book in
                     NavigationLink(value: book) {
-                        Text(book.longName)
+                        Text(book.name)
                     }
                 }
             }
@@ -38,8 +37,8 @@ struct BibleBooksList: View {
             .searchable(text: $searchText, prompt: "Search")
         }
         .task {
-            if bibleModel.books.isEmpty {
-                bibleModel.load()
+            if store.bible.books.isEmpty {
+                await store.load()
             }
         }
     }

@@ -34,6 +34,6 @@ struct ContentView: View {
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+            .environmentObject(BibleStore())
     }
 }

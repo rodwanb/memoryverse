@@ -9,10 +9,16 @@ import SwiftUI
 
 @main
 struct MemoryVerseApp: App {
+    
+    @StateObject private var store = BibleStore()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, CoreDataModel.shared.viewContext)
+                .task {
+                    await store.load()
+                }
+                .environmentObject(store)
         }
     }
 }
